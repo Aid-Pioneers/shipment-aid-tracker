@@ -1,26 +1,88 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import landingImage from './assets/images/landing-map.png';
 
-function App() {
+const Banner: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+    <div className="banner" style={{ marginBottom: '5px' }}>
+      <div className="banner-content">
+        <img src={landingImage} className="banner-image" alt="Landing Map" />
+        <h1>Track your shipments with OST</h1>
+        <a href={shipmentsPath()} className="btn btn-primary">
+          Track now
         </a>
-      </header>
+      </div>
     </div>
   );
+};
+
+const ProjectCard: React.FC<{ project: { name: string } }> = ({ project }) => {
+  return (
+    <div className="col-12 col-md-6 col-xl-4">
+      <a href={shipmentsPath()}>
+        {['Northern Iraq', 'Sierra Leone', 'Syria', 'Ukraine'].includes(
+          project.name
+        ) ? (
+          <div
+            className="project-card"
+            style={{
+              backgroundImage: `url(${require(`./${project.name}.jpg`)})`,
+            }}
+          ></div>
+        ) : (
+          <div className="project-card"></div>
+        )}
+        <div className="project-cards-container project-card-text-not-bootstrap">
+          <h4>
+            <b>{project.name}</b>
+          </h4>
+        </div>
+      </a>
+    </div>
+  );
+};
+
+const ProjectsList: React.FC<{ projects: { name: string }[] }> = ({
+  projects,
+}) => {
+  return (
+    <div className="container mt-5 mb-5">
+      <div className="row g-3 justify-content-center">
+        {projects.map((project, index) => (
+          <ProjectCard key={index} project={project} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const Footer: React.FC = () => {
+  return (
+    <React.Fragment>
+      {/* TODO add  footer component code here */}
+    </React.Fragment>
+  );
+};
+
+// Helper function for the shipments path
+function shipmentsPath() {
+  // TODO Implement  logic for generating the shipments path here
+  return '';
 }
+
+const App: React.FC = () => {
+  const projects: { name: string }[] = [
+    { name: 'sierra leone' },
+    { name: 'lebanon' },
+    { name: 'ukraine' },
+    { name: 'turkey' },
+  ];
+  return (
+    <>
+      <Banner />
+      <ProjectsList projects={projects} />
+      <Footer />
+    </>
+  );
+};
 
 export default App;
