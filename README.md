@@ -16,6 +16,7 @@ You will need to create a supabase account in order to create things like supaba
 To begin with you will want to run
 - `npx supabase login` - to authenticate against our supabase account; requires a token, which can be created by logging into your supabase account and going to https://supabase.com/dashboard/account/tokens.
 - `npx supabase start` - this will pull down the necessary docker containers and start a locally running instance.
+- `npx supabase db reset` - this will reset your local DB and run all the migrations in `/supabase/migrations` as well as populating seed data defined in `/supabase/seed.sql`.
 - `npx supabase status` - to show the status of the local database, including connection details.
 
 If you want to make changes to the production supabase project (e.g. to run a diff of your local DB or push migrations) then you will need to link the projects via
