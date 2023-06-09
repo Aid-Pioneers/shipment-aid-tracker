@@ -2,9 +2,39 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Using Supabase
+This application uses Supabase as its backend; Supabase is an open source Firebase alternative for building secure and performant Postgres backends with minimal configuration. Read more about it at https://supabase.com/docs/guides/getting-started.
+
+
+To spin up a supabase instance locally (required for local development) have a read of https://supabase.com/docs/guides/getting-started/local-development. It's easy to read and splits everything up into simple steps. If you want to get started ASAP then a few of the more important commands are extracted below:
+
+### Supabase CLI (cheat sheet)
+The `supabase` CLI can be used to develop against `supabase` locally. Run `npm install --dev` and then execute `supabase` functions via `npx supabase <cmd>`.
+
+You will need to create a supabase account in order to create things like supabase personal tokens to use the various APIs. You can create an account via your GitHub account at https://supabase.com/dashboard/sign-in.
+
+To begin with you will want to run
+- `npx supabase login` - to authenticate against our supabase account; requires a token, which can be created by logging into your supabase account and going to https://supabase.com/dashboard/account/tokens.
+- `npx supabase start` - this will pull down the necessary docker containers and start a locally running instance.
+- `npx supabase status` - to show the status of the local database, including connection details.
+
+If you want to make changes to the production supabase project (e.g. to run a diff of your local DB or push migrations) then you will need to link the projects via
+`npx supabase link`.
+
+Once you have run `npx supabase start`, you should now be able to access the local supabase dashboard at http://localhost:54323/project/default/editor.
+
+### Connecting to the DB
+Once supabase has been set up locally, to connect to the database either use the dashboard UI, or use `psql`:
+```sh
+psql postgresql://postgres:postgres@localhost:54322/postgres
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+This installs all of the production dependencies required to run the app.
 
 ### `npm start`
 
