@@ -1,49 +1,123 @@
-# Getting Started with Create React App
+# Shipment Aid Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web-app that facilitates the tracking of aid shipments around the world!
 
-## Using Supabase
-This application uses Supabase as its backend; Supabase is an open source Firebase alternative for building secure and performant Postgres backends with minimal configuration. Read more about it at https://supabase.com/docs/guides/getting-started.
+Built as a React frontend backed by Supabase. Supabase is an open source Firebase alternative for building secure and performant Postgres backends with minimal configuration. Read more about it at https://supabase.com/docs/guides/getting-started.
+
+## Deployments
+CI and deployments are handled via GitHub actions.
+
+For CI, we verify that the types are up-to-date against the production schema.
+
+**Note: We currently do not run the tests! This will be fixed soon...**
+
+On deployment we ensure that all database migrations are run against the production schema. The Heroku project will then deploy the app at https://shipment-aid-tracker.herokuapp.com/.
+## Quick Start
+To get up and running quickly follow the steps below 👇
+
+### 1. Install the `supabase` CLI
+The CLI allows us to configure a local supabase installation and develop against it, as well as to link to and udpate our production supabase instance.
 
 
-To spin up a supabase instance locally (required for local development) have a read of https://supabase.com/docs/guides/getting-started/local-development. It's easy to read and splits everything up into simple steps. If you want to get started ASAP then a few of the more important commands are extracted below:
-
-### Supabase CLI (cheat sheet)
-The `supabase` CLI can be used to develop against `supabase` locally. Run `npm install --dev` and then execute `supabase` functions via `npx supabase <cmd>`.
-
-You will need to create a supabase account in order to create things like supabase personal tokens to use the various APIs. You can create an account via your GitHub account at https://supabase.com/dashboard/sign-in.
-
-To begin with you will want to run
-- `npx supabase login` - to authenticate against our supabase account; requires a token, which can be created by logging into your supabase account and going to https://supabase.com/dashboard/account/tokens.
-- `npx supabase start` - this will pull down the necessary docker containers and start a locally running instance.
-- `npx supabase db reset` - this will reset your local DB and run all the migrations in `/supabase/migrations` as well as populating seed data defined in `/supabase/seed.sql`.
-- `npx supabase status` - to show the status of the local database, including connection details.
-
-If you want to make changes to the production supabase project (e.g. to run a diff of your local DB or push migrations) then you will need to link the projects via
-`npx supabase link`.
-
-Once you have run `npx supabase start`, you should now be able to access the local supabase dashboard at http://localhost:54323/project/default/editor.
-
-### Connecting to the DB
-Once supabase has been set up locally, to connect to the database either use the dashboard UI, or use `psql`:
 ```sh
-psql postgresql://postgres:postgres@localhost:54322/postgres
+# installs the CLI locally (recommended)
+npm install --dev
+
+# installs the CLI globally
+npm install -g supabase
 ```
+
+If installing locally then all `supabase` CLI commands must be prefixed with `npx` e.g. `npx supabase init`; if installed globally then the `npx` prefix is not required and just `supabase init` will suffice.
+
+### 2. Start supabase locally
+
+This will pull down all of the various docker images required to run supabase locally and runs them. It might take a few minutes the first time you run it!
+
+```sh
+npx supabase start
+```
+
+At the end of this process it will print out a number of useful endpoints, which you can see at any time by running
+
+```sh
+npx supabase status
+```
+
+If you visit the Studio URL (`http://localhost:54323/projects`) then you will be able to interact with the Supabase UI for your local project.
+
+### 3. Run the database migrations
+Everything is now up and running, but our database is empty. To run the migrations (and seed the tables with data) run
+
+```sh
+npx supabase db reset
+```
+
+### 4. Install and run the application
+Run
+
+```sh
+npm install && npm start
+```
+
+to start the app and open it in your web browser at [http://localhost:3000](http://localhost:3000).
+
+The page will reload if you make edits. You will also see any lint errors in the console.
+
+### 5. Go forth and explore
+
+In general the Supabase docs are really good. For more in-depth instructions or troubleshooting, consult the docs at https://supabase.com/docs/guides/getting-started/local-development. They cover things like creating/running DB migrations locally and then pushing them to production.
+
+## Advanced Supabase CLI options
+
+You may want to link up to the production supabase instance for a number of reasons:
+- To perform a diff between local schema and production schema.
+- To migrate schemas in production.
+- To install edge functions.
+
+To do this, you will need to do a couple of things:
+
+### 1. Create a Supabase account and create a personal access token
+This will enable you to create things like personal API tokens, which are needed to hit Supabase APIs locally.
+
+Visit https://supabase.com/dashboard/sign-in to create an account (you can OAuth with your GitHub account) before then navigating to https://supabase.com/dashboard/account/tokens to create a personal access token.
+
+**Note: once you have created a personal access token, you will need to keep a record of it as it will only be shown once!**
+
+### 2. Login locally
+
+Run
+
+```sh
+npx supabase login
+```
+
+and provide your personal access token when prompted to do so.
+
+### 3. Linking to the production instance
+
+Run
+
+```sh
+npx supabase link --project-ref <project-id>
+```
+
+where `<project-id>` is the ID of the supabase project, which you can find by looking at the GithubAction variables.
+
+It may prompt you for the root password - if this is skipped then you will not be able to make changes to the production database, but you will be able to make changes to other things via the CLI.
+
+### 4. Run commands
+
+For example, to generate TypeScript types for all of the tables in the production DB you can run the following command:
+
+```sh
+ npx supabase gen types typescript --project-id "<project-id>" --schema public > ./database.types.ts
+```
+
+this is also possible to run against your local DB.
 
 ## Available Scripts
 
 In the project directory, you can run:
-
-### `npm install`
-This installs all of the production dependencies required to run the app.
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
 ### `npm test`
 
@@ -59,19 +133,3 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
