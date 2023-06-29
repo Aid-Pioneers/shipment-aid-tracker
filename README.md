@@ -9,8 +9,6 @@ CI and deployments are handled via GitHub actions.
 
 For CI, we verify that the types are up-to-date against the production schema.
 
-**Note: We currently do not run the tests! This will be fixed soon...**
-
 On deployment we ensure that all database migrations are run against the production schema. The Heroku project will then deploy the app at https://shipment-aid-tracker.herokuapp.com/.
 ## Quick Start
 To get up and running quickly follow the steps below 👇
