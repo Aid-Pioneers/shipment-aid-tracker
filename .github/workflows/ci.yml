@@ -5,33 +5,40 @@ on:
   workflow_dispatch:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
 
-      - run: npm ci
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
-      - run: npm run build --if-present
+      - name: Install dependencies
+        run: npm install
 
-      - run: npm test -- --watchAll=false
+      - name: Run tests
+        run: npm test -- --watchAll=false
 
   verify-supabase-types:
-
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - uses: supabase/setup-cli@v1
+      - name: Setup supabase CLI
+        uses: supabase/setup-cli@v1
 
       - name: Start Supabase local development setup
         run: supabase start
