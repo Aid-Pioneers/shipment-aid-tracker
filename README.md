@@ -1,6 +1,7 @@
 # Shipment Aid Tracker
 [![CI](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/ci.yml)
 [![Deploy](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/deploy.yaml/badge.svg)](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/deploy.yaml)
+
 A web-app that facilitates the tracking of aid shipments around the world!
 
 Built as a React frontend backed by Supabase. Supabase is an open source Firebase alternative for building secure and performant Postgres backends with minimal configuration. Read more about it at https://supabase.com/docs/guides/getting-started.
