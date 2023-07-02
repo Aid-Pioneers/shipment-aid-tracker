@@ -1,5 +1,6 @@
 # Shipment Aid Tracker
-
+[![CI](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/ci.yml)
+[![Deploy](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/deploy.yaml/badge.svg)](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/deploy.yaml)
 A web-app that facilitates the tracking of aid shipments around the world!
 
 Built as a React frontend backed by Supabase. Supabase is an open source Firebase alternative for building secure and performant Postgres backends with minimal configuration. Read more about it at https://supabase.com/docs/guides/getting-started.
@@ -9,7 +10,7 @@ CI and deployments are handled via GitHub actions.
 
 For CI, we verify that the types are up-to-date against the production schema.
 
-On deployment we ensure that all database migrations are run against the production schema. The Heroku project will then deploy the app at https://shipment-aid-tracker.herokuapp.com/.
+On deployment we run all database migrations against the production database and deploy our application to github pages: https://aid-pioneers.github.io/shipment-aid-tracker/.
 ## Quick Start
 To get up and running quickly follow the steps below 👇
 
