@@ -2,6 +2,7 @@
   "name": "shipment-aid-tracker",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://aid-pioneers.github.io/shipment-aid-tracker/",
   "dependencies": {
     "@supabase/supabase-js": "^2.0",
     "@testing-library/jest-dom": "^5.16.5",
