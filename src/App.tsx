@@ -90,7 +90,7 @@ const App: React.FC = () => {
   */
   const supabaseUrl = 'http://localhost:54321';
   const supabaseKey =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6cm5odHpycnBzbHN3Y3h5dW5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODMxMzY2ODgsImV4cCI6MTk5ODcxMjY4OH0.mdozM_3ZCFL2C5UOB35j7cjjxtWEoT6hT6ITS_BZjv8';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6cm5odHpycnBzbHN3Y3h5dW5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgzNzE0NTUsImV4cCI6MjAwMzk0NzQ1NX0.CF2A2Lxnmb3crRemcVzyOsqpaLsRkVHZKyM0tPAuJLw';
   const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
   const projects = getProjects(supabase);
