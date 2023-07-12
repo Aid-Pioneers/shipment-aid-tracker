@@ -3,6 +3,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
 import { Footer } from './components/footer';
 import { ProjectsList } from './components/project/list';
+import { Banner } from './components/banner';
 
 async function getProjects(supabase: SupabaseClient<Database>) {
   const { data, error } = await supabase.from('project').select('*');
