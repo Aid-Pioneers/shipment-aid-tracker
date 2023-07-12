@@ -1,5 +1,5 @@
 import React from 'react';
-import landingImage from './assets/images/landing-map.png';
+// import landingImage from '~src/assets/images/landing-map.png';
 
 // Helper function for the shipments path
 function shipmentsPath() {
@@ -11,7 +11,7 @@ export const Banner: React.FC = () => {
   return (
     <div className="banner" style={{ marginBottom: '5px' }}>
       <div className="banner-content">
-        <img src={landingImage} className="banner-image" alt="Landing Map" />
+        {/* <img src={landingImage} className="banner-image" alt="Landing Map" /> */}
         <h1>Track your shipments with OST</h1>
         <a href={shipmentsPath()} className="btn btn-primary">
           Track now

@@ -1,9 +1,10 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
-import { Footer } from './components/footer';
-import { ProjectsList } from './components/project/list';
-import { Banner } from './components/banner';
+import { supabaseKey, supabaseUrl } from './constants/development';
+import { LoginContainer } from './containers/login';
+import { ProjectOverview } from './containers/project-overview';
 
 async function getProjects(supabase: SupabaseClient<Database>) {
   const { data, error } = await supabase.from('project').select('*');
@@ -25,16 +26,12 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Banner />
-      <ProjectsList
-        projects={[
-          { name: 'sierra leone' },
-          { name: 'lebanon' },
-          { name: 'ukraine' },
-          { name: 'turkey' },
-        ]}
-      />
-      <Footer />
+      <Router>
+        <Routes>
+          <Route path="/login" Component={LoginContainer} />
+          <Route path="/overview" Component={ProjectOverview} />
+        </Routes>
+      </Router>
     </>
   );
 };
