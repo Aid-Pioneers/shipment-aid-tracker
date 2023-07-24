@@ -1,23 +1,27 @@
 # Shipment Aid Tracker
 
+[![CI](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/ci.yml)
+[![Deploy](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/deploy.yaml/badge.svg)](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/deploy.yaml)
+
 A web-app that facilitates the tracking of aid shipments around the world!
 
 Built as a React frontend backed by Supabase. Supabase is an open source Firebase alternative for building secure and performant Postgres backends with minimal configuration. Read more about it at https://supabase.com/docs/guides/getting-started.
 
 ## Deployments
+
 CI and deployments are handled via GitHub actions.
 
 For CI, we verify that the types are up-to-date against the production schema.
 
-**Note: We currently do not run the tests! This will be fixed soon...**
+On deployment we run all database migrations against the production database and deploy our application to github pages: https://aid-pioneers.github.io/shipment-aid-tracker/.
 
-On deployment we ensure that all database migrations are run against the production schema. The Heroku project will then deploy the app at https://shipment-aid-tracker.herokuapp.com/.
 ## Quick Start
+
 To get up and running quickly follow the steps below 👇
 
 ### 1. Install the `supabase` CLI
-The CLI allows us to configure a local supabase installation and develop against it, as well as to link to and udpate our production supabase instance.
 
+The CLI allows us to configure a local supabase installation and develop against it, as well as to link to and udpate our production supabase instance.
 
 ```sh
 # installs the CLI locally (recommended)
@@ -46,6 +50,7 @@ npx supabase status
 If you visit the Studio URL (`http://localhost:54323/projects`) then you will be able to interact with the Supabase UI for your local project.
 
 ### 3. Run the database migrations
+
 Everything is now up and running, but our database is empty. To run the migrations (and seed the tables with data) run
 
 ```sh
@@ -53,6 +58,7 @@ npx supabase db reset
 ```
 
 ### 4. Install and run the application
+
 Run
 
 ```sh
@@ -70,6 +76,7 @@ In general the Supabase docs are really good. For more in-depth instructions or 
 ## Advanced Supabase CLI options
 
 You may want to link up to the production supabase instance for a number of reasons:
+
 - To perform a diff between local schema and production schema.
 - To migrate schemas in production.
 - To install edge functions.
@@ -77,6 +84,7 @@ You may want to link up to the production supabase instance for a number of reas
 To do this, you will need to do a couple of things:
 
 ### 1. Create a Supabase account and create a personal access token
+
 This will enable you to create things like personal API tokens, which are needed to hit Supabase APIs locally.
 
 Visit https://supabase.com/dashboard/sign-in to create an account (you can OAuth with your GitHub account) before then navigating to https://supabase.com/dashboard/account/tokens to create a personal access token.
