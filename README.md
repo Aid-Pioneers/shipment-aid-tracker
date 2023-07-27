@@ -21,7 +21,7 @@ The CLI allows us to configure a local supabase installation and develop against
 
 ```sh
 # installs the CLI locally (recommended)
-npm install --dev
+npm install --include=dev
 
 # installs the CLI globally
 npm install -g supabase
