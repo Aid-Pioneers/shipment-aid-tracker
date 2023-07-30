@@ -26,7 +26,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <HashRouter basename = "/shipment-aid-tracker">
+      <HashRouter basename = "/">
         <Routes>
           <Route path="/" Component={LoginContainer} />
           <Route path="/login" Component={LoginContainer} />
