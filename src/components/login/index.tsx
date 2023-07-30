@@ -24,13 +24,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   return (
     <form onSubmit={handleFormSubmit}>
       <div>
-        <label>Email</label>
-        <input {...register('email', { required: true })} />
+        <label htmlFor="email">Email</label>
+        <input autoComplete="email" {...register('email', { required: true })} />
         {errors.email && <span>This field is required</span>}
       </div>
       <div>
-        <label>Password</label>
-        <input {...register('password', { required: true })} />
+        <label htmlFor="password">Password</label>
+        <input type="password" autoComplete="current-password"{...register('password', { required: true })} />
         {errors.password && <span>This field is required</span>}
       </div>
       <button type="submit">Login</button>

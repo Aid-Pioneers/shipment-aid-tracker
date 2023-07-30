@@ -4,6 +4,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
 import { supabaseKey, supabaseUrl } from './constants/development';
 import { LoginContainer } from './containers/login';
+import { RegistrationContainer } from './containers/registration';
 import { ProjectOverview } from './containers/project-overview';
 
 async function getProjects(supabase: SupabaseClient<Database>) {
@@ -28,9 +29,10 @@ const App: React.FC = () => {
     <>
       <HashRouter basename = "/">
         <Routes>
-          <Route path="/" Component={LoginContainer} />
-          <Route path="/login" Component={LoginContainer} />
-          <Route path="/overview" Component={ProjectOverview} />
+          <Route path="/" element={<LoginContainer supabase={supabase} />} />
+          <Route path="/login" element={<LoginContainer supabase={supabase} />} />
+          <Route path="/register" element={<RegistrationContainer supabase={supabase} />} />
+          <Route path="/overview" element={<ProjectOverview />} />
         </Routes>
       </HashRouter>
     </>
