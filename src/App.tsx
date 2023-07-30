@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
 import { supabaseKey, supabaseUrl } from './constants/development';
@@ -26,12 +26,13 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Router>
+      <HashRouter basename = "/shipment-aid-tracker">
         <Routes>
+          <Route path="/" Component={LoginContainer} />
           <Route path="/login" Component={LoginContainer} />
           <Route path="/overview" Component={ProjectOverview} />
         </Routes>
-      </Router>
+      </HashRouter>
     </>
   );
 };
