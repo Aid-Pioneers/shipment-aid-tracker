@@ -1,27 +1,27 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import LoginForm, { LoginFormData } from '../../components/login';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { Database } from '../../database.types';
 
-export const LoginContainer: React.FC = () => {
+
+interface LoginContainerProps {
+  supabase: SupabaseClient<Database>;
+}
+
+export const LoginContainer: React.FC<LoginContainerProps> = ({supabase}) => {
   const handleLoginFormSubmit = (data: LoginFormData) => {
-    // Simulate API call
-    setTimeout(() => {
-      if (
-        data.email === 'example@example.com' &&
-        data.password === 'password'
-      ) {
-        // Successful login
-        console.log('Login successful');
-      } else {
-        // Failed login
-        console.log('Invalid email or password');
-      }
-    }, 1000);
+    supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password
+    })
   };
 
   return (
     <div>
       <h2>Login</h2>
       <LoginForm onSubmit={handleLoginFormSubmit} />
+      <p>Not registered yet? Register for an account <Link to='/register'>here</Link>.</p>
     </div>
   );
 };
