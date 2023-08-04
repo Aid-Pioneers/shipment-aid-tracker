@@ -1,5 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-export const Footer: React.FC = () => {
-  return <>{/* TODO add  footer component code here */}</>;
-};
+interface FooterProps {
+  onSignOut: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onSignOut }) =>
+  <p onClick={onSignOut}>
+    Sign out
+  </p>

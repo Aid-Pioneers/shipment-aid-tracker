@@ -1,7 +1,10 @@
 import React from 'react';
+import { Database } from '../../../database.types';
 import { ProjectCard } from '../card';
 
-export const ProjectsList: React.FC<{ projects: { name: string }[] }> = ({
+type Project = Database['public']['Tables']['project']['Row']
+
+export const ProjectsList: React.FC<{ projects: Project[] }> = ({
   projects,
 }) => {
   return (

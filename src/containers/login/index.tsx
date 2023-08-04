@@ -2,20 +2,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LoginForm, { LoginFormData } from '../../components/login';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '../../database.types';
-
+import { useNavigate } from 'react-router-dom';
 
 interface LoginContainerProps {
-  supabase: SupabaseClient<Database>;
+  supabase: SupabaseClient;
 }
 
 export const LoginContainer: React.FC<LoginContainerProps> = ({supabase}) => {
-  const handleLoginFormSubmit = (data: LoginFormData) => {
-    supabase.auth.signInWithPassword({
+
+  const navigate = useNavigate();
+
+  async function handleLoginFormSubmit(data: LoginFormData) {
+    const {error} = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password
-    })
-  };
+    });
+
+    if (error)
+      console.warn('Encountered an error when logging in.', error.cause);
+    else
+      return navigate("/overview")
+    };
 
   return (
     <div>
