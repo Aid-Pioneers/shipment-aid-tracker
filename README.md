@@ -118,8 +118,7 @@ this is also possible to run against your local DB.
 ## Troubleshooting
 
 ### Registering and signing in locally
-Email confirmation can be enabled/disabled for local development by updating the local [supabase config]
-(./supabase/config.toml).
+Email confirmation can be enabled/disabled for local development by updating the local [supabase config](./supabase/config.toml).
 
 If enabled, then any confirmation emails will be routed to a locally running [InBucket](http://localhost:54324/) and
 can be responded to there. Supabase will not send an email to an actual email server e.g. gmail!
