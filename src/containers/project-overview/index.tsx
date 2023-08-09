@@ -29,7 +29,6 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supab
       if (error)
         console.warn('Encountered an error whilst signing out.', error.cause)
 
-      console.log("Okay redirecting to /login...")
       return navigate("/login");
     };
   }
