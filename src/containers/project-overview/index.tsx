@@ -5,54 +5,56 @@ import { ProjectsList } from '../../components/project/list';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../../database.types';
 import { useNavigate } from 'react-router-dom';
+import { DbProject } from '../../types/aliases';
 
 interface ProjectOverviewContainerProps {
   supabase: SupabaseClient<Database>;
 }
 
-type Project = Database['public']['Tables']['project']['Row']
-
-export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supabase }) => {
-
+export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({
+  supabase,
+}) => {
   const navigate = useNavigate();
 
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<DbProject[]>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
   async function handleSignOut() {
-
     let { error } = await supabase.auth.getSession();
     if (error)
-      console.warn('Encountered an error whilst fetching user session.', error.cause);
+      console.warn(
+        'Encountered an error whilst fetching user session.',
+        error.cause
+      );
     else {
       let { error } = await supabase.auth.signOut();
       if (error)
-        console.warn('Encountered an error whilst signing out.', error.cause)
+        console.warn('Encountered an error whilst signing out.', error.cause);
 
-      return navigate("/login");
-    };
+      return navigate('/login');
+    }
   }
 
   useEffect(() => {
-
     async function loadProjects() {
       const { data, error } = await supabase.from('project').select('*');
 
-      if (data)
-        setProjects(data);
-      else
-        setErrors([error.message]);
+      if (data) setProjects(data);
+      else setErrors([error.message]);
     }
 
-    loadProjects()
-
+    loadProjects();
   }, []);
 
   return (
     <>
       <Banner />
-      {errors ? errors.map(error => <p>{error}</p>) : <ProjectsList projects={projects} />}
-      <Footer onSignOut={handleSignOut}/>
+      {errors ? (
+        errors.map((error) => <p>{error}</p>)
+      ) : (
+        <ProjectsList projects={projects} />
+      )}
+      <Footer onSignOut={handleSignOut} />
     </>
   );
 };
