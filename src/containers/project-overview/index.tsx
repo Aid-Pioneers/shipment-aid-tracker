@@ -28,9 +28,9 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({
       );
     else {
       let { error } = await supabase.auth.signOut();
-      if (error)
+      if (error) {
         console.warn('Encountered an error whilst signing out.', error.cause);
-
+      }
       return navigate('/login');
     }
   }
@@ -39,8 +39,8 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({
     async function loadProjects() {
       const { data, error } = await supabase.from('project').select('*');
 
-      if (data) setProjects(data);
-      else setErrors([error.message]);
+      if (error) setErrors([error.message]);
+      else setProjects(data);
     }
 
     loadProjects();
@@ -50,6 +50,7 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({
     <>
       <Banner />
       {errors ? (
+        // TODO #15 make an error component and pass error in as props
         errors.map((error) => <p>{error}</p>)
       ) : (
         <ProjectsList projects={projects} />
