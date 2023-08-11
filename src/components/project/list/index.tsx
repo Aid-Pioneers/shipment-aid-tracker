@@ -1,7 +1,8 @@
 import React from 'react';
 import { ProjectCard } from '../card';
+import { DbProject } from '../../../types/aliases';
 
-export const ProjectsList: React.FC<{ projects: { name: string }[] }> = ({
+export const ProjectsList: React.FC<{ projects: DbProject[] }> = ({
   projects,
 }) => {
   return (
