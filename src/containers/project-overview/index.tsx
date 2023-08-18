@@ -11,9 +11,7 @@ interface ProjectOverviewContainerProps {
   supabase: SupabaseClient<Database>;
 }
 
-export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({
-  supabase,
-}) => {
+export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supabase }) => {
   const navigate = useNavigate();
 
   const [projects, setProjects] = useState<DbProject[]>([]);
@@ -21,11 +19,7 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({
 
   async function handleSignOut() {
     let { error } = await supabase.auth.getSession();
-    if (error)
-      console.warn(
-        'Encountered an error whilst fetching user session.',
-        error.cause
-      );
+    if (error) console.warn('Encountered an error whilst fetching user session.', error.cause);
     else {
       let { error } = await supabase.auth.signOut();
       if (error) {

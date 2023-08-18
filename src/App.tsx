@@ -12,10 +12,10 @@ const App: React.FC = () => {
 
   return (
     <>
-      <HashRouter basename = "/">
+      <HashRouter basename="/">
         <Routes>
           <Route path="/" element={<ProjectOverview supabase={supabase} />} />
-          <Route path="/overview" element={<ProjectOverview supabase={supabase}/>} />
+          <Route path="/overview" element={<ProjectOverview supabase={supabase} />} />
           <Route path="/login" element={<LoginContainer supabase={supabase} />} />
           <Route path="/register" element={<RegistrationContainer supabase={supabase} />} />
         </Routes>
