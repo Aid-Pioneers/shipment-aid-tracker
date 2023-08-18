@@ -46,6 +46,7 @@ export const LoginFormButton = styled.button`
   border-radius: 4px;
 `;
 
+// TODO: forget password button
 export const ForgotPassword = styled.button`
   display: flex;
   font-size: 16px;
