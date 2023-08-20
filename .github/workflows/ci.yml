@@ -30,6 +30,9 @@ jobs:
       - name: Run tests
         run: npm test -- --watchAll=false
 
+      - name: Build app
+        run: npm run build
+
   verify-supabase-types:
     runs-on: ubuntu-latest
 
