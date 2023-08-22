@@ -38,8 +38,7 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supab
     }
 
     loadProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [supabase]);
 
   return (
     <>
