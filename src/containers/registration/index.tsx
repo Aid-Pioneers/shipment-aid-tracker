@@ -3,6 +3,7 @@ import { RegistrationForm, RegistrationFormData} from '../../components/registra
 import { Link } from 'react-router-dom';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../../database.types';
+import { RegistrationPageContainer } from './index.styles';
 
 interface RegistrationContainerProps {
   supabase: SupabaseClient<Database>;
@@ -28,10 +29,12 @@ export const RegistrationContainer: React.FC<RegistrationContainerProps> = ({ su
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <RegistrationForm onSubmit={handleRegistrationFormSubmit} />
-      <p>Already have an account? Login <Link to='/login'>here</Link>.</p>
-    </div>
+    <RegistrationPageContainer>
+      <div>
+        <h2>Register</h2>
+        <RegistrationForm onSubmit={handleRegistrationFormSubmit} />
+        <p>Already have an account? Login <Link to='/login'>here</Link>.</p>
+      </div>
+    </RegistrationPageContainer>
   );
 };
