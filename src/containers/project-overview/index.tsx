@@ -38,7 +38,7 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supab
     }
 
     loadProjects();
-  }, []);
+  }, [supabase]);
 
   return (
     <>
