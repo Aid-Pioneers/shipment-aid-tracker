@@ -43,12 +43,10 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supab
   return (
     <>
       <Banner />
-      {errors ? (
+      {errors.length > 0 ? (
         // TODO #15 make an error component and pass error in as props
         errors.map((error) => <p>{error}</p>)
-      ) : (
-        <ProjectsList projects={projects} />
-      )}
+      ) : <ProjectsList projects={projects} />}
       <Footer onSignOut={handleSignOut} />
     </>
   );
