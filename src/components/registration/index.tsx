@@ -1,5 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import {
+  RegistrationFormButton,
+  RegistrationFormWrapper,
+  RegistrationInputWrapper,
+  RegistrationText,
+} from './index.styles';
 
 export interface RegistrationFormProps {
   onSubmit: (data: RegistrationFormData) => void;
@@ -24,28 +30,28 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) 
   });
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <div>
-        <label htmlFor="firstName">First name</label>
+    <RegistrationFormWrapper onSubmit={handleFormSubmit}>
+      <RegistrationInputWrapper>
+        <RegistrationText htmlFor="firstName">First name</RegistrationText>
         <input autoComplete="given-name" {...register('firstName', { required: true })} />
         {errors.firstName && <span>This field is required</span>}
-      </div>
-      <div>
-        <label htmlFor="lastName">Last name</label>
+      </RegistrationInputWrapper>
+      <RegistrationInputWrapper>
+        <RegistrationText htmlFor="lastName">Last name</RegistrationText>
         <input autoComplete="family-name" {...register('lastName', { required: true })} />
         {errors.lastName && <span>This field is required</span>}
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
+      </RegistrationInputWrapper>
+      <RegistrationInputWrapper>
+        <RegistrationText htmlFor="email">Email</RegistrationText>
         <input autoComplete="email" {...register('email', { required: true })} />
         {errors.email && <span>This field is required</span>}
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
+      </RegistrationInputWrapper>
+      <RegistrationInputWrapper>
+        <RegistrationText htmlFor="password">Password</RegistrationText>
         <input type="password" autoComplete="new-password" {...register('password', { required: true })} />
         {errors.password && <span>This field is required</span>}
-      </div>
-      <button type="submit">Register</button>
-    </form>
+      </RegistrationInputWrapper>
+      <RegistrationFormButton type="submit">Register</RegistrationFormButton>
+    </RegistrationFormWrapper>
   );
 };
