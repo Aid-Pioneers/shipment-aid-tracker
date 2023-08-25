@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LoginForm, { LoginFormData } from '../../components/login';
 import { useNavigate } from 'react-router-dom';
 import { LoginPageContainer } from './index.styles';
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../services/auth-service';
 
 interface LoginContainerProps {
   authService: AuthService;

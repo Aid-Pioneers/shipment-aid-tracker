@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Banner } from '../../components/banner';
 import { Footer } from '../../components/footer';
 import { ProjectsList } from '../../components/project/list';
-import { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '../../database.types';
-import { useNavigate } from 'react-router-dom';
+import { AuthService } from '../../services/auth-service';
+import { ProjectService } from '../../services/project-service';
 import { DbProject } from '../../types/aliases';
-import { AuthService } from '../../services/auth';
-import { ProjectService } from '../../services/project';
 
 interface ProjectOverviewContainerProps {
   authService: AuthService;
@@ -24,11 +22,13 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ authS
 
   useEffect(() => {
     const loadProjects = async () => {
-      return projectService.fetchProjects(
-        (data) => setProjects(data),
-        (error) => setErrors([error.message])
-      ),
-        [projectService];
+      return (
+        projectService.fetchProjects(
+          (data) => setProjects(data),
+          (error) => setErrors([error.message])
+        ),
+        [projectService]
+      );
     };
 
     loadProjects();

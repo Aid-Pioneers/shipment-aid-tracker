@@ -3,7 +3,7 @@ import { RegistrationForm, RegistrationFormData} from '../../components/registra
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { RegistrationPageContainer } from './index.styles';
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../services/auth-service';
 
 interface RegistrationContainerProps {
   authService: AuthService;

@@ -6,8 +6,8 @@ import { supabaseKey, supabaseUrl } from './config/config';
 import { LoginContainer } from './containers/login';
 import { RegistrationContainer } from './containers/registration';
 import { ProjectOverview } from './containers/project-overview';
-import { AuthService } from './services/auth';
-import { ProjectService } from './services/project';
+import { AuthService } from './services/auth-service';
+import { ProjectService } from './services/project-service';
 
 const App: React.FC = () => {
   const supabase: SupabaseClient = createClient<Database>(supabaseUrl, supabaseKey);
