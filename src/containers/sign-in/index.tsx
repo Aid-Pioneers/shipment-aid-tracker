@@ -20,8 +20,8 @@ export const SignInContainer: React.FC<SignInContainerProps> = ({ authService })
       <h2>Sign in</h2>
       <SignInEmailPasswordForm onSubmit={handleSignInFormSubmit} />
       <p>
-        Not registered yet? Sign up for an account{' '}
-        <Link to="/register">here</Link>.
+        Not signed up yet? Sign up for an account{' '}
+        <Link to="/sign-up">here</Link>.
       </p>
     </SignInPageContainer>
   );
