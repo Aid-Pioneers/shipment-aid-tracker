@@ -6,39 +6,33 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../../database.types';
 import { useNavigate } from 'react-router-dom';
 import { DbProject } from '../../types/aliases';
+import { AuthService } from '../../services/auth';
+import { ProjectService } from '../../services/project';
 
 interface ProjectOverviewContainerProps {
-  supabase: SupabaseClient<Database>;
+  authService: AuthService;
+  projectService: ProjectService;
 }
 
-export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supabase }) => {
+export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ authService, projectService }) => {
   const navigate = useNavigate();
 
   const [projects, setProjects] = useState<DbProject[]>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
-  async function handleSignOut() {
-    let { error } = await supabase.auth.getSession();
-    if (error) console.warn('Encountered an error whilst fetching user session.', error.cause);
-    else {
-      let { error } = await supabase.auth.signOut();
-      if (error) {
-        console.warn('Encountered an error whilst signing out.', error.cause);
-      }
-      return navigate('/login');
-    }
-  }
+  const handleSignOut = () => authService.signOut(() => navigate('/login'));
 
   useEffect(() => {
-    async function loadProjects() {
-      const { data, error } = await supabase.from('project').select('*');
-
-      if (error) setErrors([error.message]);
-      else setProjects(data);
-    }
+    const loadProjects = async () => {
+      return projectService.fetchProjects(
+        (data) => setProjects(data),
+        (error) => setErrors([error.message])
+      ),
+        [projectService];
+    };
 
     loadProjects();
-  }, [supabase]);
+  }, [projectService]);
 
   return (
     <>
@@ -46,7 +40,9 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supab
       {errors.length > 0 ? (
         // TODO #15 make an error component and pass error in as props
         errors.map((error) => <p>{error}</p>)
-      ) : <ProjectsList projects={projects} />}
+      ) : (
+        <ProjectsList projects={projects} />
+      )}
       <Footer onSignOut={handleSignOut} />
     </>
   );
