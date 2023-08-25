@@ -2,7 +2,7 @@ import React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
-import { supabaseKey, supabaseUrl } from './constants/development';
+import { supabaseKey, supabaseUrl } from './config/config';
 import { LoginContainer } from './containers/login';
 import { RegistrationContainer } from './containers/registration';
 import { ProjectOverview } from './containers/project-overview';
