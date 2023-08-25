@@ -15,7 +15,7 @@ export const RegistrationContainer: React.FC<RegistrationContainerProps> = ({ au
 
   const handleRegistrationFormSubmit = (data: RegistrationFormData) => {
 
-    authService.signUp(data, () => navigate('/login'))
+    authService.signUp(data, () => navigate('/sign-in'))
   };
 
   return (
@@ -23,7 +23,7 @@ export const RegistrationContainer: React.FC<RegistrationContainerProps> = ({ au
       <div>
         <h2>Register</h2>
         <RegistrationForm onSubmit={handleRegistrationFormSubmit} />
-        <p>Already have an account? Login <Link to='/login'>here</Link>.</p>
+        <p>Already have an account? Sign in <Link to='/sign-in'>here</Link>.</p>
       </div>
     </RegistrationPageContainer>
   );
