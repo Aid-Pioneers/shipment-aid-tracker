@@ -1,31 +1,21 @@
 import React from 'react';
 import { RegistrationForm, RegistrationFormData} from '../../components/registration';
 import { Link } from 'react-router-dom';
-import { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '../../database.types';
+import { useNavigate } from 'react-router-dom';
 import { RegistrationPageContainer } from './index.styles';
+import { AuthService } from '../../services/auth';
 
 interface RegistrationContainerProps {
-  supabase: SupabaseClient<Database>;
+  authService: AuthService;
 }
 
-export const RegistrationContainer: React.FC<RegistrationContainerProps> = ({ supabase }) => {
+export const RegistrationContainer: React.FC<RegistrationContainerProps> = ({ authService }) => {
+
+  const navigate = useNavigate();
 
   const handleRegistrationFormSubmit = (data: RegistrationFormData) => {
 
-    // TODO: this should be in a service and we just pass the function in.
-    supabase.auth.signUp(
-      {
-        email: data.email,
-        password: data.password,
-        options: {
-          data: {
-            first_name: data.firstName,
-            last_name: data.lastName
-          }
-        }
-      }
-    )
+    authService.signUp(data, () => navigate('/login'))
   };
 
   return (
