@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const RegistrationFormWrapper = styled.form`
+export const SignUpFormWrapper = styled.form`
   background-color: #f1f1f1;
   padding: 24px;
   border-radius: 4px;
@@ -17,14 +17,14 @@ export const RegistrationFormWrapper = styled.form`
   }
 `;
 
-export const RegistrationInputWrapper = styled.div`
+export const SignUpInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;
   margin-bottom: 1rem;
 `;
 
-export const RegistrationFormButton = styled.button`
+export const SignUpFormButton = styled.button`
   width: 80%;
   background-color: #fed330;
   border-color: #fed330;
@@ -46,7 +46,7 @@ export const RegistrationFormButton = styled.button`
   border-radius: 4px;
 `;
 
-export const RegistrationText = styled.label`
+export const SignUpText = styled.label`
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 `;

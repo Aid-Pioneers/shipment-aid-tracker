@@ -18,7 +18,7 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ authS
   const [projects, setProjects] = useState<DbProject[]>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
-  const handleSignOut = () => authService.signOut(() => navigate('/login'));
+  const handleSignOut = () => authService.signOut(() => navigate('/sign-in'));
 
   useEffect(() => {
     const loadProjects = async () => {

@@ -3,8 +3,8 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
 import { supabaseKey, supabaseUrl } from './config/config';
-import { LoginContainer } from './containers/login';
-import { RegistrationContainer } from './containers/registration';
+import { SignInContainer } from './containers/sign-in';
+import { SignUpContainer } from './containers/sign-up';
 import { ProjectOverview } from './containers/project-overview';
 import { AuthService } from './services/auth-service';
 import { ProjectService } from './services/project-service';
@@ -20,8 +20,8 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<ProjectOverview authService={authService} projectService={projectService} />} />
           <Route path="/overview" element={<ProjectOverview authService={authService} projectService={projectService} />} />
-          <Route path="/login" element={<LoginContainer authService={authService} />} />
-          <Route path="/register" element={<RegistrationContainer authService={authService} />} />
+          <Route path="/sign-in" element={<SignInContainer authService={authService} />} />
+          <Route path="/sign-up" element={<SignUpContainer authService={authService} />} />
         </Routes>
       </HashRouter>
     </>
