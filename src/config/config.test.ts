@@ -1,5 +1,5 @@
-import { supabaseUrl, supabaseKey } from './config';
+import { supabaseUrl } from './config';
 
 test('Reads in the correct configuration in test mode', () => {
-    expect(supabaseUrl == 'localhost:5432');
+    expect(supabaseUrl).toBe('http://localhost:54321');
   });

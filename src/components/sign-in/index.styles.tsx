@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LoginFormWrapper = styled.form`
+export const SignInFormWrapper = styled.form`
   background-color: #f1f1f1;
   padding: 24px;
   border-radius: 4px;
@@ -17,14 +17,14 @@ export const LoginFormWrapper = styled.form`
   }
 `;
 
-export const LoginInputWrapper = styled.div`
+export const SignInInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;
   margin-bottom: 1rem;
 `;
 
-export const LoginFormButton = styled.button`
+export const SignInFormButton = styled.button`
   width: 80%;
   background-color: #fed330;
   border-color: #fed330;
@@ -53,7 +53,7 @@ export const ForgotPassword = styled.button`
   justify-content: center;
 `;
 
-export const LoginText = styled.label`
+export const SignInText = styled.label`
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 `;

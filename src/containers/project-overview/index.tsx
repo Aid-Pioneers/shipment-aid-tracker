@@ -1,44 +1,38 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Banner } from '../../components/banner';
 import { Footer } from '../../components/footer';
 import { ProjectsList } from '../../components/project/list';
-import { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '../../database.types';
-import { useNavigate } from 'react-router-dom';
+import { AuthService } from '../../services/auth-service';
+import { ProjectService } from '../../services/project-service';
 import { DbProject } from '../../types/aliases';
 
 interface ProjectOverviewContainerProps {
-  supabase: SupabaseClient<Database>;
+  authService: AuthService;
+  projectService: ProjectService;
 }
 
-export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supabase }) => {
+export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ authService, projectService }) => {
   const navigate = useNavigate();
 
   const [projects, setProjects] = useState<DbProject[]>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
-  async function handleSignOut() {
-    let { error } = await supabase.auth.getSession();
-    if (error) console.warn('Encountered an error whilst fetching user session.', error.cause);
-    else {
-      let { error } = await supabase.auth.signOut();
-      if (error) {
-        console.warn('Encountered an error whilst signing out.', error.cause);
-      }
-      return navigate('/login');
-    }
-  }
+  const handleSignOut = () => authService.signOut(() => navigate('/sign-in'));
 
   useEffect(() => {
-    async function loadProjects() {
-      const { data, error } = await supabase.from('project').select('*');
-
-      if (error) setErrors([error.message]);
-      else setProjects(data);
-    }
+    const loadProjects = async () => {
+      return (
+        projectService.fetchProjects(
+          (data) => setProjects(data),
+          (error) => setErrors([error.message])
+        ),
+        [projectService]
+      );
+    };
 
     loadProjects();
-  }, [supabase]);
+  }, [projectService]);
 
   return (
     <>
@@ -46,7 +40,9 @@ export const ProjectOverview: React.FC<ProjectOverviewContainerProps> = ({ supab
       {errors.length > 0 ? (
         // TODO #15 make an error component and pass error in as props
         errors.map((error) => <p>{error}</p>)
-      ) : <ProjectsList projects={projects} />}
+      ) : (
+        <ProjectsList projects={projects} />
+      )}
       <Footer onSignOut={handleSignOut} />
     </>
   );
