@@ -8,11 +8,14 @@ import { SignUpContainer } from './containers/sign-up';
 import { ProjectOverview } from './containers/project-overview';
 import { AuthService } from './services/auth-service';
 import { ProjectService } from './services/project-service';
+import { ShipmentService } from './services/shipment-service';
+import { ShipmentOverview } from './containers/shipment/shipment-list-view';
 
 const App: React.FC = () => {
   const supabase: SupabaseClient = createClient<Database>(supabaseUrl, supabaseKey);
   const authService: AuthService = new AuthService(supabase);
   const projectService: ProjectService = new ProjectService(supabase);
+  const shipmentService: ShipmentService = new ShipmentService(supabase);
 
   return (
     <>
@@ -22,6 +25,8 @@ const App: React.FC = () => {
           <Route path="/overview" element={<ProjectOverview authService={authService} projectService={projectService} />} />
           <Route path="/sign-in" element={<SignInContainer authService={authService} />} />
           <Route path="/sign-up" element={<SignUpContainer authService={authService} />} />
+          {/* TODO fix this error */}
+          <Route path="shipment" element={<ShipmentOverview shipmentService={shipmentService}} />
         </Routes>
       </HashRouter>
     </>
