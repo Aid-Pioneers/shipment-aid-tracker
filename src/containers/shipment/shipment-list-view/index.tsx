@@ -29,7 +29,7 @@ export const ShipmentOverview: React.FC<ShipmentOverviewProps> = ({ shipmentServ
         errors.map((error) => <p>{error}</p>)
       ) : (
         // TODO: shipment list component
-        <p>shipments</p>
+        <p>{JSON.stringify(shipments)}</p>
       )}
     </>
   );
