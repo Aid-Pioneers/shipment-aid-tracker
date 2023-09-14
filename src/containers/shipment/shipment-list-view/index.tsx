@@ -10,6 +10,8 @@ export const ShipmentOverview: React.FC<ShipmentOverviewProps> = ({ shipmentServ
   const [shipments, setShipments] = useState<any>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
+  console.log({ shipments });
+
   useEffect(() => {
     const loadShipments = async () => {
       return shipmentService.fetchShipments(
@@ -22,11 +24,13 @@ export const ShipmentOverview: React.FC<ShipmentOverviewProps> = ({ shipmentServ
 
   return (
     <>
-      {errors.length > 0
-        ? // TODO #15 make an error component and pass error in as props
-          errors.map((error) => <p>{error}</p>)
-        : // TODO: shipment list component
-          { shipments }}
+      {errors.length > 0 ? (
+        // TODO #15 make an error component and pass error in as props
+        errors.map((error) => <p>{error}</p>)
+      ) : (
+        // TODO: shipment list component
+        <p>shipments</p>
+      )}
     </>
   );
 };

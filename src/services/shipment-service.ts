@@ -1,6 +1,6 @@
 import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../database.types';
-import { DbProject } from '../types/aliases';
+import { DbShipment } from '../types/aliases';
 
 export class ShipmentService {
     supabase: SupabaseClient<Database>;
@@ -9,8 +9,8 @@ export class ShipmentService {
         this.supabase = supabase;
     }
 
-    async fetchShipments(onSuccess: (projects: DbProject[]) => void, onError: (error: PostgrestError) => void) {
-        const { data, error } = await this.supabase.from('project').select('*');
+    async fetchShipments(onSuccess: (projects: DbShipment[]) => void, onError: (error: PostgrestError) => void) {
+        const { data, error } = await this.supabase.from('shipment').select('*');
         return error ? onError(error) : onSuccess(data)
     }
 }

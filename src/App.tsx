@@ -26,7 +26,7 @@ const App: React.FC = () => {
           <Route path="/sign-in" element={<SignInContainer authService={authService} />} />
           <Route path="/sign-up" element={<SignUpContainer authService={authService} />} />
           {/* TODO fix this error */}
-          <Route path="shipment" element={<ShipmentOverview shipmentService={shipmentService}} />
+          <Route path="/shipment" element={<ShipmentOverview shipmentService={shipmentService} />} />
         </Routes>
       </HashRouter>
     </>
