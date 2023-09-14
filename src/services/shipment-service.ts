@@ -13,4 +13,10 @@ export class ShipmentService {
         const { data, error } = await this.supabase.from('shipment').select('*');
         return error ? onError(error) : onSuccess(data)
     }
+
+    async create(shipment: any) {
+        // TODO 
+        // create a new shipment row on supabase shipment table 
+        const { data, error } = await this.supabase.from('shipment').insert(shipment);
+    }
 }
