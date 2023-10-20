@@ -20,11 +20,11 @@ export const SignUpContainer: React.FC<SignUpContainerProps> = ({ authService })
 
   return (
     <SignUpPageContainer>
-      <div>
-        <h2>Sign up</h2>
-        <SignUpForm onSubmit={handleSignUpFormSubmit} />
-        <p>Already have an account? Sign in <Link to='/sign-in'>here</Link>.</p>
-      </div>
+      <h2>Sign up</h2>
+      <SignUpForm onSubmit={handleSignUpFormSubmit} />
+      <p>
+        Already have an account? Sign in <Link to='/sign-in'>here</Link>.
+      </p>
     </SignUpPageContainer>
   );
 };
