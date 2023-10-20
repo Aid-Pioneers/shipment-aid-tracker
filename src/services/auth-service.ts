@@ -18,13 +18,20 @@ export class AuthService {
     return !this.isUserSignedIn();
   }
 
-  async signInWithPassword(data: { email: string; password: string }, onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when signing in.', error.cause)) {
+  async signInWithPassword(data: { email: string; password: string }, onSuccess: () => void, onError: (error: AuthError) => void = (error) => {
+    console.warn('Encountered an error when signing in.', error.cause);
+    alert(error.message);
+  }) {
     const { error } = await this.supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
     });
 
-    return error ? onError(error) : onSuccess();
+    if (error) {
+      onError(error);
+    } else {
+      onSuccess();
+    }
   }
 
   async signOut(onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when signing out.', error.cause)) {
@@ -39,7 +46,10 @@ export class AuthService {
     }
   }
 
-  async signUp(data: { firstName: string; lastName: string; email: string; password: string }, onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when logging in.', error.cause)) {
+  async signUp(data: { firstName: string; lastName: string; email: string; password: string }, onSuccess: () => void, onError: (error: AuthError) => void = (error) => {
+    console.warn('Encountered an error when logging in.', error.cause);
+    alert(error.message);
+  }) {
     const { error } = await this.supabase.auth.signUp({
       email: data.email,
       password: data.password,
@@ -51,6 +61,10 @@ export class AuthService {
       },
     });
 
-    return error ? onError(error) : onSuccess();
+    if (error) {
+      onError(error);
+    } else {
+      onSuccess();
+    }
   }
 }
