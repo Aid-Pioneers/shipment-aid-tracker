@@ -69,44 +69,51 @@ export interface Database {
       pallet: {
         Row: {
           created_at: string
-          id: string
-          shipment_id: string
+          id: number
+          shipment_id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
-          id?: string
-          shipment_id: string
+          id?: number
+          shipment_id: number
           updated_at?: string
         }
         Update: {
           created_at?: string
-          id?: string
-          shipment_id?: string
+          id?: number
+          shipment_id?: number
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "pallet_shipment_id_fkey"
+            columns: ["shipment_id"]
+            referencedRelation: "shipment"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       pallet_scan: {
         Row: {
           created_at: string
-          id: string
+          id: number
           location: unknown
-          pallet_id: string
+          pallet_id: number | null
           updated_at: string
         }
         Insert: {
           created_at?: string
-          id?: string
+          id?: number
           location: unknown
-          pallet_id: string
+          pallet_id?: number | null
           updated_at?: string
         }
         Update: {
           created_at?: string
-          id?: string
+          id?: number
           location?: unknown
-          pallet_id?: string
+          pallet_id?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -121,19 +128,19 @@ export interface Database {
       project: {
         Row: {
           created_at: string
-          id: string
+          id: number
           name: string
           updated_at: string
         }
         Insert: {
           created_at?: string
-          id?: string
+          id?: number
           name: string
           updated_at?: string
         }
         Update: {
           created_at?: string
-          id?: string
+          id?: number
           name?: string
           updated_at?: string
         }
@@ -144,7 +151,7 @@ export interface Database {
           bookkeeping_flexport: boolean | null
           bookkeeping_gik: boolean | null
           commercial_invoice_link: string | null
-          consignee: number | null
+          consignee_id: number | null
           created_at: string
           destination_id: number
           donor_id: number | null
@@ -153,13 +160,13 @@ export interface Database {
           flexport_tracking_id: string | null
           freight_tracking_id: string | null
           gik_value_amount_usd: number | null
-          id: string
+          id: number
           impact_reporting: boolean | null
           logistics_expense_donation_usd: number | null
           main_shipment_type_id: number | null
           patients_treated: number | null
-          project_id: string
-          status: number
+          project_id: number | null
+          status_id: number
           updated_at: string
           weight_kg: number | null
         }
@@ -167,7 +174,7 @@ export interface Database {
           bookkeeping_flexport?: boolean | null
           bookkeeping_gik?: boolean | null
           commercial_invoice_link?: string | null
-          consignee?: number | null
+          consignee_id?: number | null
           created_at?: string
           destination_id: number
           donor_id?: number | null
@@ -176,13 +183,13 @@ export interface Database {
           flexport_tracking_id?: string | null
           freight_tracking_id?: string | null
           gik_value_amount_usd?: number | null
-          id?: string
+          id?: number
           impact_reporting?: boolean | null
           logistics_expense_donation_usd?: number | null
           main_shipment_type_id?: number | null
           patients_treated?: number | null
-          project_id: string
-          status: number
+          project_id?: number | null
+          status_id: number
           updated_at?: string
           weight_kg?: number | null
         }
@@ -190,7 +197,7 @@ export interface Database {
           bookkeeping_flexport?: boolean | null
           bookkeeping_gik?: boolean | null
           commercial_invoice_link?: string | null
-          consignee?: number | null
+          consignee_id?: number | null
           created_at?: string
           destination_id?: number
           donor_id?: number | null
@@ -199,20 +206,20 @@ export interface Database {
           flexport_tracking_id?: string | null
           freight_tracking_id?: string | null
           gik_value_amount_usd?: number | null
-          id?: string
+          id?: number
           impact_reporting?: boolean | null
           logistics_expense_donation_usd?: number | null
           main_shipment_type_id?: number | null
           patients_treated?: number | null
-          project_id?: string
-          status?: number
+          project_id?: number | null
+          status_id?: number
           updated_at?: string
           weight_kg?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "shipment_consignee_fkey"
-            columns: ["consignee"]
+            foreignKeyName: "shipment_consignee_id_fkey"
+            columns: ["consignee_id"]
             referencedRelation: "consignee_partner"
             referencedColumns: ["id"]
           },
@@ -241,8 +248,8 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "shipment_status_fkey"
-            columns: ["status"]
+            foreignKeyName: "shipment_status_id_fkey"
+            columns: ["status_id"]
             referencedRelation: "shipment_status"
             referencedColumns: ["id"]
           }
