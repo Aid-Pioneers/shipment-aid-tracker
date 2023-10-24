@@ -39,17 +39,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+      
       - name: Setup supabase CLI
         uses: supabase/setup-cli@v1
-
-      - name: Start Supabase local development setup
-        run: supabase start
-
+        with:
+          version: 1.106.1
+      
+      - run: supabase db start
+        
       - name: Verify generated types are up-to-date
         run: |
-          supabase gen types typescript --local > types.ts
-          if [ "$(git diff --ignore-space-at-eol types.ts | wc -l)" -gt "0" ]; then
+          types_path=src/types/database.types.ts
+          supabase gen types typescript --local --schema public > "$types_path"
+          if ! git diff --ignore-space-at-eol --exit-code --quiet "$types_path"; then
             echo "Detected uncommitted changes after build. See status below:"
             git diff
             exit 1

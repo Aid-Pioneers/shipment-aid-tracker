@@ -1,5 +1,5 @@
 import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '../database.types';
+import { Database } from '../types/database.types';
 import { DbProject } from '../types/aliases';
 
 export class ProjectService {
