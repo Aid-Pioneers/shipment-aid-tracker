@@ -21,6 +21,8 @@ jobs:
 
       - name: Setup supabase CLI
         uses: supabase/setup-cli@v1
+        with:
+          version: 1.106.1
 
       - name: Setup Node.js
         uses: actions/setup-node@v3

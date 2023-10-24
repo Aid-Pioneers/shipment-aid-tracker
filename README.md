@@ -110,7 +110,7 @@ It may prompt you for the root password - if this is skipped then you will not b
 For example, to generate TypeScript types for all of the tables in the production DB you can run the following command:
 
 ```sh
- npx supabase gen types typescript --project-id "<project-id>" --schema public > ./database.types.ts
+ npx supabase gen types typescript --project-id "<project-id>" --schema public > ./types/database.types.ts
 ```
 
 this is also possible to run against your local DB.
