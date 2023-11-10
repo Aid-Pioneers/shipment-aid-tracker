@@ -1,8 +1,8 @@
 import React from 'react';
 import { ShipmentService } from '../../../services/shipment-service';
 import { useForm } from 'react-hook-form';
-import { FormItemWrapper, FormWrapper } from './index.styles';
-
+import { FormItemWrapper, FormRowWrapper, FormWrapper } from './index.styles';
+import { Heading, Input } from '@chakra-ui/react';
 interface ShipmentCreationContainerProps {
   shipmentService: ShipmentService;
 }
@@ -13,47 +13,53 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
   console.log({ shipmentService });
   const onSubmit = () => {};
   return (
-    <FormWrapper>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormItemWrapper>
-          <label>Starting Location:</label>
-          <input name="starting_location" />
-          {/* {errors.starting_location && <span>This field is required</span>} */}
-        </FormItemWrapper>
+    <>
+      <Heading>Create a shipment</Heading>
+      <FormWrapper>
+        <Heading>General</Heading>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormItemWrapper>
+            <label>Internal shipment number</label>
+            <Input size="sm" />
+          </FormItemWrapper>
+          <FormItemWrapper>
+            <label>Drive link</label>
+            <Input size="sm" />
+          </FormItemWrapper>
 
-        <FormItemWrapper>
-          <label>Destination Location:</label>
-          {/* TODO this needs to be a dropdown */}
-          {/* {errors.destination_location && <span>This field is required</span>} */}
-        </FormItemWrapper>
-        <FormItemWrapper>
-          <label>Cure ID</label>
-          <input name="cure_id" />
-        </FormItemWrapper>
-        <FormItemWrapper>
-          <label>Shipping ID</label>
-          <input name="shipping_id" />
-        </FormItemWrapper>
-        <FormItemWrapper>
-          <label>Delivery Date</label>
-          <input name="delivery_date" />
-        </FormItemWrapper>
-        <FormItemWrapper>
-          <label>Recipient</label>
-          {/* TODO dropdown?? */}
-        </FormItemWrapper>
-        <FormItemWrapper>
-          <label>Weight</label>
-          <input name="shipment_weight" />
-        </FormItemWrapper>
+          <FormItemWrapper>
+            <label>Origin:</label>
+            <Input size="sm" />
+            {/* {errors.starting_location && <span>This field is required</span>} */}
+          </FormItemWrapper>
 
-        <FormItemWrapper>
-          <label>Value</label>
-          <input name="shipment_value" />
-        </FormItemWrapper>
+          <FormItemWrapper>
+            <label>Destination:</label>
+            {/* TODO this needs to be a dropdown?? */}
+            <Input size="sm" />
+            {/* {errors.destination_location && <span>This field is required</span>} */}
+          </FormItemWrapper>
+          <FormItemWrapper>
+            <label>Main shipment type</label>
+            <Input size="sm" />
+          </FormItemWrapper>
 
-        <button type="submit">Create Shipment</button>
-      </form>
-    </FormWrapper>
+          <FormItemWrapper>
+            <label>Consignee (Recipient)</label>
+            <Input size="sm" />
+          </FormItemWrapper>
+          <FormItemWrapper>
+            <label>Managed By</label>
+            <Input size="sm" />
+          </FormItemWrapper>
+          <FormItemWrapper>
+            <label>Status</label>
+            <Input size="sm" />
+          </FormItemWrapper>
+
+          <button type="submit">Create Shipment</button>
+        </form>
+      </FormWrapper>
+    </>
   );
 };

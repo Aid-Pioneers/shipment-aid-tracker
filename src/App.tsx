@@ -11,6 +11,7 @@ import { ProjectService } from './services/project-service';
 import { ShipmentService } from './services/shipment-service';
 import { ShipmentOverview } from './containers/shipment/shipment-list-view';
 import { ShipmentCreationContainer } from './containers/shipment/shipment-creation';
+import { ChakraProvider } from '@chakra-ui/react';
 
 const App: React.FC = () => {
   const supabase: SupabaseClient = createClient<Database>(supabaseUrl, supabaseKey);
@@ -19,7 +20,7 @@ const App: React.FC = () => {
   const shipmentService: ShipmentService = new ShipmentService(supabase);
 
   return (
-    <>
+    <ChakraProvider>
       <HashRouter basename="/">
         <Routes>
           <Route path="/" element={<ProjectOverview authService={authService} projectService={projectService} />} />
@@ -31,7 +32,7 @@ const App: React.FC = () => {
           <Route path="/shipments/new" element={<ShipmentCreationContainer shipmentService={shipmentService} />} />
         </Routes>
       </HashRouter>
-    </>
+    </ChakraProvider>
   );
 };
 

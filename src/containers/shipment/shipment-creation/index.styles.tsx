@@ -5,7 +5,7 @@ export const FormWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  width: 300px;
+  width: 800px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -14,6 +14,12 @@ export const FormWrapper = styled.div`
 `;
 
 export const FormItemWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+export const FormRowWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
