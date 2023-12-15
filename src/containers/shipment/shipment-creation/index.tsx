@@ -1,8 +1,7 @@
 import React from 'react';
 import { ShipmentService } from '../../../services/shipment-service';
-import { useForm } from 'react-hook-form';
 import { FormWrapper } from './index.styles';
-import { Heading, Input, VStack, GridItem, Grid, Select, Stack, Button } from '@chakra-ui/react';
+import { Heading, VStack, Stack, Button } from '@chakra-ui/react';
 import { ShipmentCreationGeneralComponent } from '../../../components/shipment/creation/general';
 interface ShipmentCreationContainerProps {
   shipmentService: ShipmentService;
