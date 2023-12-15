@@ -19,7 +19,7 @@ export const ShipmentCreationImpactComponent: React.FC<ImpactComponentProps> = (
   return (
     <FormWrapper>
       <CollapsibleFormHeaderComponent header="Impact" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
-      <Collapse in={typeof isCollapsed === undefined || !isCollapsed}>
+      <Collapse in={typeof isCollapsed === 'undefined' || !isCollapsed}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* TODO what goes in this section? */}
         </form>

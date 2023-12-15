@@ -19,7 +19,7 @@ export const ShipmentCreationFinanceComponent: React.FC<FinanceComponentProps> =
   return (
     <FormWrapper>
       <CollapsibleFormHeaderComponent header="Finance" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
-      <Collapse in={typeof isCollapsed === undefined || !isCollapsed}>
+      <Collapse in={typeof isCollapsed === 'undefined' || !isCollapsed}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* TODO what goes in this section? */}
         </form>

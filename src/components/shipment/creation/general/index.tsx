@@ -20,7 +20,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   return (
     <FormWrapper>
       <CollapsibleFormHeaderComponent header="General" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
-      <Collapse in={typeof isCollapsed === undefined || !isCollapsed}>
+      <Collapse in={typeof isCollapsed === 'undefined' || !isCollapsed}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid templateColumns="repeat(12, 1fr)" gap={6}>
             <GridItem colSpan={[6, 4]}>

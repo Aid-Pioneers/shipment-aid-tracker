@@ -19,7 +19,7 @@ export const ShipmentCreationTrackingComponent: React.FC<TrackingComponentProps>
   return (
     <FormWrapper>
       <CollapsibleFormHeaderComponent header="Tracking" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
-      <Collapse in={typeof isCollapsed === undefined || !isCollapsed}>
+      <Collapse in={typeof isCollapsed === 'undefined' || !isCollapsed}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid templateColumns="repeat(12, 1fr)" gap={6}>
             <GridItem colSpan={[2, 4]}>
