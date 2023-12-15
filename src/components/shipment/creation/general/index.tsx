@@ -11,13 +11,11 @@ export const ShipmentCreationGeneralComponent: React.FC<generalComponentProps> =
   const onSubmit = () => {};
   return (
     <FormWrapper>
+      <Heading as="h2" size="lg" textAlign="left">
+        General
+      </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid templateColumns="repeat(12, 1fr)" gap={6}>
-        <GridItem colSpan={[6, 12]}>
-            <Heading as="h2" size="lg" textAlign="left">
-              General
-            </Heading>
-          </GridItem>
           <GridItem colSpan={[6, 4]}>
             <label>Origin</label>
             <Select placeholder="Select origin">
@@ -67,7 +65,7 @@ export const ShipmentCreationGeneralComponent: React.FC<generalComponentProps> =
           </GridItem>
           <GridItem colSpan={[6, 8]}>
             <label>Drive Link</label>
-            <Input size="sm" />
+            <Input size="sm" type="url" />
           </GridItem>
           <GridItem colSpan={[6, 4]}>
             <label>Status</label>

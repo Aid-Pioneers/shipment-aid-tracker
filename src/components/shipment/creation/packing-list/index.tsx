@@ -11,18 +11,16 @@ export const ShipmentCreationPackingListComponent: React.FC<packingListComponent
   const onSubmit = () => {};
   return (
     <FormWrapper>
+      <Heading as="h2" size="lg" textAlign="left">
+        Packing List
+      </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid templateColumns="repeat(12, 1fr)" gap={6}>
-        <GridItem colSpan={[6, 12]}>
-            <Heading as="h2" size="lg" textAlign="left">
-              Packing List
-            </Heading>
-          </GridItem>
-          <GridItem colSpan={[6, 8]}>
+          <GridItem colSpan={[4, 8]}>
             <label>Packing Link</label>
-            <Input size="sm" />
+            <Input size="sm" type="url" />
           </GridItem>
-          <GridItem colSpan={[6, 4]}>
+          <GridItem colSpan={[4, 4]}>
             {/* TODO this list should be fetched from database */}
             <label>Donor</label>
             <Select placeholder="Select option">

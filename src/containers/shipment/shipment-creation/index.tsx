@@ -1,8 +1,8 @@
 import React from 'react';
 import { ShipmentService } from '../../../services/shipment-service';
-import { Heading, VStack, Stack, Button } from '@chakra-ui/react';
+import { Heading, VStack, Stack, Button, HStack, Flex } from '@chakra-ui/react';
 import { ShipmentCreationGeneralComponent } from '../../../components/shipment/creation/general';
-import { ShipmentCreationLogisticsComponent } from '../../../components/shipment/creation/logistics';
+import { ShipmentCreationTrackingComponent } from '../../../components/shipment/creation/tracking';
 import { ShipmentCreationFinanceComponent } from '../../../components/shipment/creation/finance';
 import { ShipmentCreationPackingListComponent } from '../../../components/shipment/creation/packing-list';
 import { ShipmentCreationImpactComponent } from '../../../components/shipment/creation/impact';
@@ -19,17 +19,17 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
       <Heading as="h1">Create a shipment</Heading>
       <ShipmentCreationGeneralComponent />
       <ShipmentCreationPackingListComponent />
-      <ShipmentCreationLogisticsComponent />
+      <ShipmentCreationTrackingComponent />
       <ShipmentCreationFinanceComponent />
       <ShipmentCreationImpactComponent />
-      <Stack direction="row" spacing={4}>
-        <Button colorScheme="pink" variant="outline">
+      <HStack spacing={20} align="left">
+        <Button colorScheme="blue" variant="outline">
           Cancel
         </Button>
-        <Button colorScheme="pink" variant="solid">
+        <Button colorScheme="blue" variant="solid">
           Save
         </Button>
-      </Stack>
+      </HStack>
     </VStack>
   );
 };
