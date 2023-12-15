@@ -1,7 +1,7 @@
+import { Collapse } from '@chakra-ui/react';
 import * as React from 'react';
-import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
-import { Heading, Input, GridItem, Grid, Select, Collapse } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
+import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 
 interface ImpactComponentProps {

@@ -1,6 +1,6 @@
 import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '../types/database.types';
 import { DbShipment } from '../types/aliases';
+import { Database } from '../types/database.types';
 
 export class ShipmentService {
   supabase: SupabaseClient<Database>;
