@@ -27,7 +27,6 @@ const App: React.FC = () => {
           <Route path="/overview" element={<ProjectOverview authService={authService} projectService={projectService} />} />
           <Route path="/sign-in" element={<SignInContainer authService={authService} />} />
           <Route path="/sign-up" element={<SignUpContainer authService={authService} />} />
-          {/* TODO fix this error */}
           <Route path="/shipments" element={<ShipmentOverview shipmentService={shipmentService} />} />
           <Route path="/shipments/new" element={<ShipmentCreationContainer shipmentService={shipmentService} />} />
         </Routes>
