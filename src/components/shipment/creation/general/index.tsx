@@ -67,7 +67,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
-              <label>Drive Number:</label>
+              <label>Drive Number</label>
               <Input size="sm" />
             </GridItem>
             <GridItem colSpan={[6, 8]}>
