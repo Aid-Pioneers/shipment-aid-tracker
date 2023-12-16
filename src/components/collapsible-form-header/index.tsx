@@ -1,4 +1,5 @@
-import { Button, Grid, GridItem, Heading } from '@chakra-ui/react';
+import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import { Grid, GridItem, Heading, IconButton } from '@chakra-ui/react';
 import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -14,6 +15,9 @@ export const CollapsibleFormHeaderComponent: React.FC<CollapsibleFormComponentPr
 
   const handleToggleCollapse = () => { setCollapsed(!isCollapsed); };
 
+  const expandButton = <IconButton onClick={handleToggleCollapse} size="sm" aria-label={'expand-section'} icon={<TriangleDownIcon />} />
+  const collapseButton = <IconButton onClick={handleToggleCollapse} size="sm" aria-label={'expand-section'} icon={<TriangleUpIcon />} />
+
   return (
     <Grid templateColumns="repeat(20, 1fr)" gap={6}>
       <GridItem colSpan={[4, 19]}>
@@ -23,9 +27,7 @@ export const CollapsibleFormHeaderComponent: React.FC<CollapsibleFormComponentPr
       </GridItem>
       {isCollapsible ? (
         <GridItem colSpan={[1, 1]}>
-          <Button onClick={handleToggleCollapse} size="sm">
-            {isCollapsed ? '⭡' : '⭣'}
-          </Button>
+          {isCollapsed ? expandButton : collapseButton}
         </GridItem>
       ) : null
       }
