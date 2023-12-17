@@ -4,6 +4,10 @@
   "private": true,
   "homepage": "https://aid-pioneers.github.io/shipment-aid-tracker/",
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@supabase/supabase-js": "^2.38",
     "@testing-library/jest-dom": "^6.1",
     "@testing-library/react": "^14.0",
@@ -12,6 +16,7 @@
     "@types/node": "^20.8",
     "@types/react": "^18.2",
     "@types/react-dom": "^18.2",
+    "framer-motion": "^10.16.4",
     "react": "^18.2",
     "react-dom": "^18.2",
     "react-hook-form": "^7.47",
