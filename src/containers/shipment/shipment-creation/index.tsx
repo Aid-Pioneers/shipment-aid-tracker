@@ -6,7 +6,7 @@ import { ShipmentCreationTrackingComponent } from '../../../components/shipment/
 import { ConsigneeService } from '../../../services/consignee-service';
 import { CountryService } from '../../../services/country-service';
 import { ShipmentService } from '../../../services/shipment-service';
-import { DbConsignee, DbCountry, DbShipmentType } from '../../../types/aliases';
+import { DbConsignee, DbCountry, DbShipmentStatus, DbShipmentType } from '../../../types/aliases';
 interface ShipmentCreationContainerProps {
   shipmentService: ShipmentService;
   countryService: CountryService;
@@ -17,6 +17,7 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
 
   const [countries, setCountries] = useState<DbCountry[]>([]);
   const [shipmentTypes, setShipmentTypes] = useState<DbShipmentType[]>([]);
+  const [shipmentStatuses, setShipmentStatuses] = useState<DbShipmentStatus[]>([]);
   const [consignees, setConsignees] = useState<DbConsignee[]>([]);
 
   useEffect(() => {
@@ -28,6 +29,10 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
         ),
         shipmentService.fetchShipmentTypes(
           (data) => setShipmentTypes(data),
+          (error) => console.error(error)
+        ),
+        shipmentService.fetchShipmentStatuses(
+          (data) => setShipmentStatuses(data),
           (error) => console.error(error)
         ),
         consigneeService.fetchConsignees(
@@ -45,7 +50,7 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
     <VStack>
       {/* TODO can we make this h1 left aligned? */}
       <Heading as="h1">Create a shipment</Heading>
-      <ShipmentCreationGeneralComponent countries={countries} shipmentTypes={shipmentTypes} consignees={consignees} />
+      <ShipmentCreationGeneralComponent countries={countries} shipmentTypes={shipmentTypes} shipmentStatuses={shipmentStatuses} consignees={consignees} />
       <ShipmentCreationPackingListComponent startCollapsed={false} />
       <ShipmentCreationTrackingComponent startCollapsed={true} />
       {/* TODO can we make this HStack left aligned? */}

@@ -3,17 +3,18 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
-import { DbConsignee, DbCountry, DbShipmentType } from '../../../../types/aliases';
+import { DbConsignee, DbCountry, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 
 interface GeneralComponentProps {
   startCollapsed?: boolean,
   countries: DbCountry[],
   shipmentTypes: DbShipmentType[],
+  shipmentStatuses: DbShipmentStatus[],
   consignees: DbConsignee[]
 }
 
-export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes, consignees }) => {
+export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes, shipmentStatuses, consignees }) => {
 
   const { handleSubmit } = useForm<FormData>();
 
@@ -24,6 +25,8 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   const countryOptions = countries.map(country => <option value={country.id} key={country.id}>{country.name}</option>)
 
   const shipmentTypeOptions = shipmentTypes.map(shipmentType => <option value={shipmentType.id} key={shipmentType.id}>{shipmentType.shipment_type}</option>)
+
+  const shipmentStatusOptions = shipmentStatuses.map(shipmentStatus => <option value={shipmentStatus.id} key={shipmentStatus.id}>{shipmentStatus.status}</option>)
 
   const consigneeOptions = consignees.map(consignee => <option value={consignee.id} key={consignee.id}>{consignee.name}</option>)
 
@@ -80,10 +83,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
             <GridItem colSpan={[6, 4]}>
               <label>Status</label>
               <Select placeholder="Select option">
-                <option value="planned">Planned</option>
-                <option value="confirmed">Confirmed</option>
-                <option value="shipped">Shipped</option>
-                <option value="delivered">Delivered</option>
+                {shipmentStatusOptions}
               </Select>
             </GridItem>
           </Grid>
