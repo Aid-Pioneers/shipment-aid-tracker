@@ -5,6 +5,13 @@ export interface SignInWithPasswordData {
   password: string
 }
 
+export interface SignUpWithPasswordData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 export class AuthService {
   supabase: SupabaseClient;
 
@@ -44,7 +51,7 @@ export class AuthService {
     }
   }
 
-  async signUp(data: { firstName: string; lastName: string; email: string; password: string }, onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when logging in.', error.cause)) {
+  async signUp(data: SignUpWithPasswordData, onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when logging in.', error.cause)) {
     const { error } = await this.supabase.auth.signUp({
       email: data.email,
       password: data.password,
