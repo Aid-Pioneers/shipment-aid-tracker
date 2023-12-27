@@ -1,6 +1,7 @@
+import { useToast } from '@chakra-ui/react';
+import { AuthError } from '@supabase/supabase-js';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Dropdown } from '../../components/dropdown';
 import SignInEmailPasswordForm, { SignInEmailPasswordFormData } from '../../components/sign-in';
 import { AuthService } from '../../services/auth-service';
 import { SignInPageContainer } from './index.styles';
@@ -11,9 +12,18 @@ interface SignInContainerProps {
 
 export const SignInContainer: React.FC<SignInContainerProps> = ({ authService }) => {
   const navigate = useNavigate();
+  const toast = useToast()
+
+  const handleSignInError = (authError: AuthError) => toast({
+    title: 'Failed to sign in...',
+    status: 'error',
+    description: authError.message,
+    isClosable: true
+  })
+
 
   const handleSignInFormSubmit = (data: SignInEmailPasswordFormData) =>
-    authService.signInWithPassword(data, () => navigate('/overview'), authError => Dropdown({ status: 'error', title: 'Failed to sign in.', description: authError.message }))
+    authService.signInWithPassword(data, () => navigate('/overview'), handleSignInError)
 
   return (
     <SignInPageContainer>
