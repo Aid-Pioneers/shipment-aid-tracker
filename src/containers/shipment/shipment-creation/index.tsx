@@ -1,22 +1,37 @@
 import { Button, HStack, Heading, VStack } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShipmentCreationGeneralComponent } from '../../../components/shipment/creation/general';
 import { ShipmentCreationPackingListComponent } from '../../../components/shipment/creation/packing-list';
 import { ShipmentCreationTrackingComponent } from '../../../components/shipment/creation/tracking';
+import { CountryService } from '../../../services/country-service';
 import { ShipmentService } from '../../../services/shipment-service';
+import { DbCountry } from '../../../types/aliases';
 interface ShipmentCreationContainerProps {
   shipmentService: ShipmentService;
+  countryService: CountryService;
 }
 
-export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps> = ({ shipmentService }) => {
-  console.log({ shipmentService });
+export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps> = ({ shipmentService, countryService }) => {
+
+  const [countries, setCountries] = useState<DbCountry[]>([]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      return countryService.fetchCountries(
+        (data) => setCountries(data),
+        (error) => console.error(error)
+      );
+    };
+    loadData();
+  }, [countryService]);
+
   // NB: this container will handle making API calls and passing props into
   // Create a React context with all the data from the API required to render the forms (donors, destinations, statuses etc)
   return (
     <VStack>
       {/* TODO can we make this h1 left aligned? */}
       <Heading as="h1">Create a shipment</Heading>
-      <ShipmentCreationGeneralComponent />
+      <ShipmentCreationGeneralComponent countries={countries} />
       <ShipmentCreationPackingListComponent startCollapsed={false} />
       <ShipmentCreationTrackingComponent startCollapsed={true} />
       {/* TODO can we make this HStack left aligned? */}

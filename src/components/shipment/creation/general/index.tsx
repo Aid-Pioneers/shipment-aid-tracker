@@ -3,19 +3,23 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
+import { DbCountry } from '../../../../types/aliases';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 
 interface GeneralComponentProps {
-  startCollapsed?: boolean
+  startCollapsed?: boolean,
+  countries: DbCountry[]
 }
 
-export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed }) => {
+export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries }) => {
 
   const { handleSubmit } = useForm<FormData>();
 
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
 
-  const onSubmit = () => { };
+
+  const countryOptions = countries.map(country => <option value={country.id}>{country.name}</option>)
+
 
   return (
     <FormWrapper>
@@ -26,15 +30,13 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
             <GridItem colSpan={[6, 4]}>
               <label>Origin</label>
               <Select placeholder="Select origin">
-                {/* TODO this list should be fetched from database */}
-                <option value="ukraine">New York, USA</option>
+                {countryOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Destination</label>
               <Select placeholder="Select origin">
-                {/* TODO this list should be fetched from database */}
-                <option value="ukraine">Kyiv, Ukraine</option>
+                {countryOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
