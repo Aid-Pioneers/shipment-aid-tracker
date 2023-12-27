@@ -3,16 +3,20 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
+import { DbDonor } from '../../../../types/aliases';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 
 interface PackingListComponentProps {
-  startCollapsed?: boolean
+  startCollapsed?: boolean,
+  donors: DbDonor[]
 }
 
-export const ShipmentCreationPackingListComponent: React.FC<PackingListComponentProps> = ({ startCollapsed }) => {
+export const ShipmentCreationPackingListComponent: React.FC<PackingListComponentProps> = ({ startCollapsed, donors }) => {
   const { handleSubmit } = useForm<FormData>();
 
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
+
+  const donorOptions = donors.map(donor => <option value={donor.id} key={donor.id}>{donor.name}</option>)
 
   const onSubmit = () => { };
 
@@ -31,10 +35,9 @@ export const ShipmentCreationPackingListComponent: React.FC<PackingListComponent
               </Spacer>
             </GridItem>
             <GridItem colSpan={[4, 4]}>
-              {/* TODO this list should be fetched from database */}
               <label>Donor</label>
               <Select placeholder="Select option">
-                <option value="crowd-donation">CrowdDonation</option>
+                {donorOptions}
               </Select>
             </GridItem>
           </Grid>
