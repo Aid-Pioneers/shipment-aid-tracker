@@ -1,38 +1,120 @@
-import { useToast } from '@chakra-ui/react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { Avatar, Box, Button, Flex, FormControl, FormHelperText, Heading, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Stack, chakra, useToast } from '@chakra-ui/react';
 import { AuthError } from '@supabase/supabase-js';
-import React from 'react';
+import React, { useState } from 'react';
+import { FaLock, FaUserAlt } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-import SignInEmailPasswordForm, { SignInEmailPasswordFormData } from '../../components/sign-in';
 import { AuthService } from '../../services/auth-service';
-import { SignInPageContainer } from './index.styles';
 
 interface SignInContainerProps {
   authService: AuthService;
 }
 
 export const SignInContainer: React.FC<SignInContainerProps> = ({ authService }) => {
+
   const navigate = useNavigate();
-  const toast = useToast()
+  const toast = useToast();
 
-  const handleSignInError = (authError: AuthError) => toast({
-    title: 'Failed to sign in...',
-    status: 'error',
-    description: authError.message,
-    isClosable: true
-  })
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
+  const handleSignInError = (authError: AuthError) =>
+    toast({
+      title: 'Failed to sign in...',
+      status: 'error',
+      description: authError.message,
+      isClosable: true
+    })
 
-  const handleSignInFormSubmit = (data: SignInEmailPasswordFormData) =>
-    authService.signInWithPassword(data, () => navigate('/overview'), handleSignInError)
+  const handleSignInSuccess = () => navigate('/')
+
+  const handleSignInFormSubmit = () =>
+    authService.signInWithPassword({ email: email, password: password }, handleSignInSuccess, handleSignInError);
+
+  const CFaUserAlt = chakra(FaUserAlt);
+  const CFaLock = chakra(FaLock);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleToggleShowPassword = () => setShowPassword(!showPassword);
 
   return (
-    <SignInPageContainer>
-      <h2>Sign in</h2>
-      <SignInEmailPasswordForm onSubmit={handleSignInFormSubmit} />
-      <p>
-        Not signed up yet? Sign up for an account{' '}
-        <Link to="/sign-up">here</Link>.
-      </p>
-    </SignInPageContainer>
-  );
+    <Flex
+      flexDirection="column"
+      width="100wh"
+      height="100vh"
+      backgroundColor="gray.200"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Stack
+        flexDir="column"
+        mb="2"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Avatar bg="teal.500" />
+        <Heading color="teal.400">Welcome</Heading>
+        <Box minW={{ base: "90%", md: "468px" }}>
+          <form onSubmit={handleSignInFormSubmit}>
+            <Stack
+              spacing={4}
+              p="1rem"
+              backgroundColor="whiteAlpha.900"
+              boxShadow="md"
+            >
+              <FormControl>
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    children={<CFaUserAlt color="gray.300" />}
+                  />
+                  <Input
+                    type="email"
+                    placeholder="email address"
+                    onChange={event => setEmail(event.currentTarget.value)} />
+                </InputGroup>
+              </FormControl>
+              <FormControl>
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    color="gray.300"
+                    children={<CFaLock color="gray.300" />}
+                  />
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    onChange={event => setPassword(event.currentTarget.value)}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <IconButton aria-label='show-password-toggle' h="1.75rem" size="sm" onClick={handleToggleShowPassword} icon={showPassword ? <ViewIcon /> : <ViewOffIcon />} >
+                    </IconButton>
+                  </InputRightElement>
+                </InputGroup>
+                <FormHelperText textAlign="right">
+                  <Link to='/forgot-my-password'>forgot password?</Link>
+                </FormHelperText>
+              </FormControl>
+              <Button
+                borderRadius={0}
+                type="submit"
+                variant="solid"
+                colorScheme="teal"
+                width="full"
+              >
+                Login
+              </Button>
+            </Stack>
+          </form>
+        </Box >
+      </Stack >
+      <Box>
+        New to us?{' '}
+        <Link color="teal.500" to='/sign-up'>
+          Sign Up
+        </Link>
+      </Box>
+    </Flex >
+  )
 };
