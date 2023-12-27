@@ -3,16 +3,17 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
-import { DbCountry, DbShipmentType } from '../../../../types/aliases';
+import { DbConsignee, DbCountry, DbShipmentType } from '../../../../types/aliases';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 
 interface GeneralComponentProps {
   startCollapsed?: boolean,
   countries: DbCountry[],
-  shipmentTypes: DbShipmentType[]
+  shipmentTypes: DbShipmentType[],
+  consignees: DbConsignee[]
 }
 
-export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes }) => {
+export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes, consignees }) => {
 
   const { handleSubmit } = useForm<FormData>();
 
@@ -23,6 +24,8 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   const countryOptions = countries.map(country => <option value={country.id} key={country.id}>{country.name}</option>)
 
   const shipmentTypeOptions = shipmentTypes.map(shipmentType => <option value={shipmentType.id} key={shipmentType.id}>{shipmentType.shipment_type}</option>)
+
+  const consigneeOptions = consignees.map(consignee => <option value={consignee.id} key={consignee.id}>{consignee.name}</option>)
 
   return (
     <FormWrapper>
@@ -50,9 +53,8 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Consignee (recipient)</label>
-              {/* TODO this list should be fetched from database */}
               <Select placeholder="Select option">
-                <option value="uhu">UHU / P22</option>
+                {consigneeOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>

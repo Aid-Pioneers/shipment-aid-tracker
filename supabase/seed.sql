@@ -23,6 +23,11 @@ values
     ('Truck');
 
 insert into
+    public.consignee_partner (name)
+values
+    ('UHU / P22');
+
+insert into
     public.country (code, name)
 values
     ('AF', 'Afghanistan'),
