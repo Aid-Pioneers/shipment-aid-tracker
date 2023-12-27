@@ -5,7 +5,7 @@ import { ShipmentCreationPackingListComponent } from '../../../components/shipme
 import { ShipmentCreationTrackingComponent } from '../../../components/shipment/creation/tracking';
 import { CountryService } from '../../../services/country-service';
 import { ShipmentService } from '../../../services/shipment-service';
-import { DbCountry } from '../../../types/aliases';
+import { DbCountry, DbShipmentType } from '../../../types/aliases';
 interface ShipmentCreationContainerProps {
   shipmentService: ShipmentService;
   countryService: CountryService;
@@ -14,16 +14,22 @@ interface ShipmentCreationContainerProps {
 export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps> = ({ shipmentService, countryService }) => {
 
   const [countries, setCountries] = useState<DbCountry[]>([]);
+  const [shipmentTypes, setShipmentTypes] = useState<DbShipmentType[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
-      return countryService.fetchCountries(
-        (data) => setCountries(data),
-        (error) => console.error(error)
-      );
+      return Promise.all([
+        countryService.fetchCountries(
+          (data) => setCountries(data),
+          (error) => console.error(error)
+        ),
+        shipmentService.fetchShipmentTypes(
+          (data) => setShipmentTypes(data),
+          (error) => console.error(error)
+        )]);
     };
     loadData();
-  }, [countryService]);
+  }, [shipmentService, countryService]);
 
   // NB: this container will handle making API calls and passing props into
   // Create a React context with all the data from the API required to render the forms (donors, destinations, statuses etc)
@@ -31,7 +37,7 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
     <VStack>
       {/* TODO can we make this h1 left aligned? */}
       <Heading as="h1">Create a shipment</Heading>
-      <ShipmentCreationGeneralComponent countries={countries} />
+      <ShipmentCreationGeneralComponent countries={countries} shipmentTypes={shipmentTypes} />
       <ShipmentCreationPackingListComponent startCollapsed={false} />
       <ShipmentCreationTrackingComponent startCollapsed={true} />
       {/* TODO can we make this HStack left aligned? */}

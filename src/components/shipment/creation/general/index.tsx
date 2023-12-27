@@ -3,23 +3,26 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
-import { DbCountry } from '../../../../types/aliases';
+import { DbCountry, DbShipmentType } from '../../../../types/aliases';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 
 interface GeneralComponentProps {
   startCollapsed?: boolean,
-  countries: DbCountry[]
+  countries: DbCountry[],
+  shipmentTypes: DbShipmentType[]
 }
 
-export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries }) => {
+export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes }) => {
 
   const { handleSubmit } = useForm<FormData>();
 
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
 
+  const onSubmit = (data: any) => { };
 
-  const countryOptions = countries.map(country => <option value={country.id}>{country.name}</option>)
+  const countryOptions = countries.map(country => <option value={country.id} key={country.id}>{country.name}</option>)
 
+  const shipmentTypeOptions = shipmentTypes.map(shipmentType => <option value={shipmentType.id} key={shipmentType.id}>{shipmentType.shipment_type}</option>)
 
   return (
     <FormWrapper>
@@ -42,11 +45,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
             <GridItem colSpan={[6, 4]}>
               <label>Main shipment type</label>
               <Select placeholder="Select option">
-                {/* TODO this list should be fetched from database */}
-                <option value="shipping">Shipping</option>
-                <option value="air_freight">Air Freight</option>
-                <option value="trains">Trains</option>
-                <option value="trucks">Trucks</option>
+                {shipmentTypeOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
