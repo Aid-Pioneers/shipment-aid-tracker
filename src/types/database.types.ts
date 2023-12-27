@@ -32,14 +32,17 @@ export interface Database {
       }
       country: {
         Row: {
+          code: string
           id: number
           name: string
         }
         Insert: {
+          code: string
           id?: number
           name: string
         }
         Update: {
+          code?: string
           id?: number
           name?: string
         }
