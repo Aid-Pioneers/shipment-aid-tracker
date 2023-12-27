@@ -1,5 +1,10 @@
 import { AuthError, SupabaseClient } from '@supabase/supabase-js';
 
+export interface SignInWithPasswordData {
+  email: string,
+  password: string
+}
+
 export class AuthService {
   supabase: SupabaseClient;
 
@@ -18,7 +23,7 @@ export class AuthService {
     return !this.isUserSignedIn();
   }
 
-  async signInWithPassword(data: { email: string; password: string }, onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when signing in.', error.cause)) {
+  async signInWithPassword(data: SignInWithPasswordData, onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when signing in.', error.cause)) {
     const { error } = await this.supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
