@@ -1,4 +1,4 @@
-import { Collapse, Grid, GridItem, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Spacer } from '@chakra-ui/react';
+import { Collapse, Grid, GridItem, Input, NumberInput, NumberInputField, Spacer } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -44,20 +44,12 @@ export const ShipmentCreationTrackingComponent: React.FC<TrackingComponentProps>
               <label>Weight (kg)</label>
               <NumberInput defaultValue={0} size="sm">
                 <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
               </NumberInput>
             </GridItem>
             <GridItem colSpan={[4, 4]}>
               <label>GIK-value of goods (USD)</label>
               <NumberInput defaultValue={0} size="sm">
                 <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
               </NumberInput>
             </GridItem>
           </Grid>
