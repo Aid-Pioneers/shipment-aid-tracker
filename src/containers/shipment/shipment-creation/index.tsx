@@ -6,22 +6,25 @@ import { ShipmentCreationTrackingComponent } from '../../../components/shipment/
 import { ConsigneeService } from '../../../services/consignee-service';
 import { CountryService } from '../../../services/country-service';
 import { DonorService } from '../../../services/donor-service';
+import { ProfileService } from '../../../services/profile-service';
 import { ShipmentService } from '../../../services/shipment-service';
-import { DbConsignee, DbCountry, DbDonor, DbShipmentStatus, DbShipmentType } from '../../../types/aliases';
+import { DbConsignee, DbCountry, DbDonor, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../types/aliases';
 interface ShipmentCreationContainerProps {
   shipmentService: ShipmentService;
   countryService: CountryService;
   consigneeService: ConsigneeService;
   donorService: DonorService;
+  profileService: ProfileService;
 }
 
-export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps> = ({ shipmentService, countryService, consigneeService, donorService }) => {
+export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps> = ({ shipmentService, countryService, consigneeService, donorService, profileService }) => {
 
   const [countries, setCountries] = useState<DbCountry[]>([]);
   const [shipmentTypes, setShipmentTypes] = useState<DbShipmentType[]>([]);
   const [shipmentStatuses, setShipmentStatuses] = useState<DbShipmentStatus[]>([]);
   const [consignees, setConsignees] = useState<DbConsignee[]>([]);
   const [donors, setDonors] = useState<DbDonor[]>([]);
+  const [managers, setManagers] = useState<DbProfile[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -45,11 +48,15 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
         donorService.fetchDonors(
           (data) => setDonors(data),
           (error) => console.error(error)
+        ),
+        profileService.fetchProfiles(['manager'],
+          (data) => setManagers(data),
+          (error) => console.error(error)
         )
       ]);
     };
     loadData();
-  }, [shipmentService, countryService, consigneeService, donorService]);
+  }, [shipmentService, countryService, consigneeService, donorService, profileService]);
 
   // NB: this container will handle making API calls and passing props into
   // Create a React context with all the data from the API required to render the forms (donors, destinations, statuses etc)
@@ -57,7 +64,7 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
     <VStack>
       {/* TODO can we make this h1 left aligned? */}
       <Heading as="h1">Create a shipment</Heading>
-      <ShipmentCreationGeneralComponent countries={countries} shipmentTypes={shipmentTypes} shipmentStatuses={shipmentStatuses} consignees={consignees} />
+      <ShipmentCreationGeneralComponent countries={countries} shipmentTypes={shipmentTypes} shipmentStatuses={shipmentStatuses} consignees={consignees} managers={managers} />
       <ShipmentCreationPackingListComponent startCollapsed={false} donors={donors} />
       <ShipmentCreationTrackingComponent startCollapsed={true} />
       {/* TODO can we make this HStack left aligned? */}

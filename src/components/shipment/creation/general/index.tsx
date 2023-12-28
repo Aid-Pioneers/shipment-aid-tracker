@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
-import { DbConsignee, DbCountry, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
+import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 
 interface GeneralComponentProps {
@@ -11,10 +11,11 @@ interface GeneralComponentProps {
   countries: DbCountry[],
   shipmentTypes: DbShipmentType[],
   shipmentStatuses: DbShipmentStatus[],
-  consignees: DbConsignee[]
+  consignees: DbConsignee[],
+  managers: DbProfile[]
 }
 
-export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes, shipmentStatuses, consignees }) => {
+export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes, shipmentStatuses, consignees, managers }) => {
 
   const { handleSubmit } = useForm<FormData>();
 
@@ -29,6 +30,8 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   const shipmentStatusOptions = shipmentStatuses.map(shipmentStatus => <option value={shipmentStatus.id} key={shipmentStatus.id}>{shipmentStatus.status}</option>)
 
   const consigneeOptions = consignees.map(consignee => <option value={consignee.id} key={consignee.id}>{consignee.name}</option>)
+
+  const managerOptions = managers.map(manager => <option value={manager.id} key={manager.id}>{manager.first_name}{' '}{manager.last_name}</option>)
 
   return (
     <FormWrapper>
@@ -65,11 +68,9 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
               <Input size="sm" />
             </GridItem>
             <GridItem colSpan={[6, 4]}>
-              {/* TODO this list should be fetched from database */}
               <label>Managed By</label>
               <Select placeholder="Select option">
-                <option value="valeria">Valeria</option>
-                <option value="alexis">Alexis</option>
+                {managerOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
