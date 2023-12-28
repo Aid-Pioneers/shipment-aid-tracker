@@ -128,6 +128,62 @@ export interface Database {
           }
         ]
       }
+      profile: {
+        Row: {
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+        }
+        Insert: {
+          email?: string | null
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+        }
+        Update: {
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      profile_role: {
+        Row: {
+          profile_id: string
+          role_id: number
+        }
+        Insert: {
+          profile_id: string
+          role_id: number
+        }
+        Update: {
+          profile_id?: string
+          role_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_role_profile_id_fkey"
+            columns: ["profile_id"]
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_role_role_id_fkey"
+            columns: ["role_id"]
+            referencedRelation: "role"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       project: {
         Row: {
           created_at: string
@@ -145,6 +201,27 @@ export interface Database {
           created_at?: string
           id?: number
           name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      role: {
+        Row: {
+          created_at: string
+          id: number
+          role: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          role?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          role?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -167,6 +244,7 @@ export interface Database {
           impact_reporting: boolean | null
           logistics_expense_donation_usd: number | null
           main_shipment_type_id: number | null
+          origin_id: number
           patients_treated: number | null
           project_id: number | null
           status_id: number
@@ -190,6 +268,7 @@ export interface Database {
           impact_reporting?: boolean | null
           logistics_expense_donation_usd?: number | null
           main_shipment_type_id?: number | null
+          origin_id: number
           patients_treated?: number | null
           project_id?: number | null
           status_id: number
@@ -213,6 +292,7 @@ export interface Database {
           impact_reporting?: boolean | null
           logistics_expense_donation_usd?: number | null
           main_shipment_type_id?: number | null
+          origin_id?: number
           patients_treated?: number | null
           project_id?: number | null
           status_id?: number
@@ -245,6 +325,12 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "shipment_origin_id_fkey"
+            columns: ["origin_id"]
+            referencedRelation: "country"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "shipment_project_id_fkey"
             columns: ["project_id"]
             referencedRelation: "project"
@@ -254,6 +340,34 @@ export interface Database {
             foreignKeyName: "shipment_status_id_fkey"
             columns: ["status_id"]
             referencedRelation: "shipment_status"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      shipment_manager: {
+        Row: {
+          profile_id: string
+          shipment_id: number
+        }
+        Insert: {
+          profile_id: string
+          shipment_id: number
+        }
+        Update: {
+          profile_id?: string
+          shipment_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipment_manager_profile_id_fkey"
+            columns: ["profile_id"]
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shipment_manager_shipment_id_fkey"
+            columns: ["shipment_id"]
+            referencedRelation: "shipment"
             referencedColumns: ["id"]
           }
         ]
