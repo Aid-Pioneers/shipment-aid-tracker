@@ -123,10 +123,35 @@ with check (auth.uid() in (
             )
     ));
 
-
 create policy "enable read for authenticated users only"
 on "public"."shipment_manager"
 as permissive
 for select
 to authenticated
 using (true);
+
+-- inserts a row into public.profile
+create function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  insert into public.profile (id, first_name, last_name, email)
+  values (new.id, new.raw_user_meta_data ->> 'first_name', new.raw_user_meta_data ->> 'last_name', new.email);
+  return new;
+end;
+$$;
+
+-- trigger the function every time a user is created
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+
+-- add an origin for a shipment
+alter table public.shipment
+add column "origin_id" bigint not null;
+
+alter table "public"."shipment" add constraint "shipment_origin_id_fkey" FOREIGN KEY (origin_id) REFERENCES country(id) not valid;
+
+alter table "public"."shipment" validate constraint "shipment_origin_id_fkey";
