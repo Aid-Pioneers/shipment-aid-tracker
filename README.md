@@ -123,6 +123,11 @@ Email confirmation can be enabled/disabled for local development by updating the
 If enabled, then any confirmation emails will be routed to a locally running [InBucket](http://localhost:54324/) and
 can be responded to there. Supabase will not send an email to an actual email server e.g. gmail!
 
+### My deployment failed
+Take a look at the GitHub actions output. The most common causes of failed deployments are:
+- **Linting errors** - an unused import or variable has been found and this causes the deployments to fail. Keeping our code clean!
+- **The Supbase project cannot be connected to or found** - the project hasn't been used in a few days and (since we are on the free tier) it has been paused by Supabase. Simply logging into the dashboard and restoring the project should fix it.
+
 ## Available Scripts
 
 In the project directory, you can run:
