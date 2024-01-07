@@ -12,6 +12,7 @@ import { AuthService } from './services/auth-service';
 import { ConsigneeService } from './services/consignee-service';
 import { CountryService } from './services/country-service';
 import { DonorService } from './services/donor-service';
+import { ProfileService } from './services/profile-service';
 import { ProjectService } from './services/project-service';
 import { ShipmentService } from './services/shipment-service';
 import { Database } from './types/database.types';
@@ -24,6 +25,7 @@ const App: React.FC = () => {
   const countryService: CountryService = new CountryService(supabase);
   const consigneeService: ConsigneeService = new ConsigneeService(supabase);
   const donorService: DonorService = new DonorService(supabase);
+  const profileService: ProfileService = new ProfileService(supabase);
 
   return (
     <ChakraProvider>
@@ -34,7 +36,7 @@ const App: React.FC = () => {
           <Route path="/sign-in" element={<SignInContainer authService={authService} />} />
           <Route path="/sign-up" element={<SignUpContainer authService={authService} />} />
           <Route path="/shipments" element={<ShipmentOverview shipmentService={shipmentService} />} />
-          <Route path="/shipments/new" element={<ShipmentCreationContainer shipmentService={shipmentService} countryService={countryService} consigneeService={consigneeService} donorService={donorService} />} />
+          <Route path="/shipments/new" element={<ShipmentCreationContainer shipmentService={shipmentService} countryService={countryService} consigneeService={consigneeService} donorService={donorService} profileService={profileService} />} />
         </Routes>
       </HashRouter>
     </ChakraProvider>

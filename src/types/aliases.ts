@@ -13,3 +13,5 @@ export type DbShipmentStatus = Database['public']['Tables']['shipment_status']['
 export type DbConsignee = Database['public']['Tables']['consignee_partner']['Row']
 
 export type DbDonor = Database['public']['Tables']['donor']['Row']
+
+export type DbProfile = Database['public']['Tables']['profile']['Row']
