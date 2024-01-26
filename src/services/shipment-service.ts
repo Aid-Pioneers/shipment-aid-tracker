@@ -25,7 +25,6 @@ export class ShipmentService {
   }
 
   async create(shipment: DbShipment, onError: (error: PostgrestError) => void) {
-    // TODO create a new shipment row on supabase shipment table
     const { error } = await this.supabase.from('shipment').insert(shipment);
     if (error)
       return onError(error)
