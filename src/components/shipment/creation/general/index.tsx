@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
+import { ShipmentService } from '../../../../services/shipment-service';
 import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 
@@ -12,16 +13,15 @@ interface GeneralComponentProps {
   shipmentTypes: DbShipmentType[],
   shipmentStatuses: DbShipmentStatus[],
   consignees: DbConsignee[],
-  managers: DbProfile[]
+  managers: DbProfile[],
+  shipmentService: ShipmentService
 }
 
-export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes, shipmentStatuses, consignees, managers }) => {
+export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes, shipmentStatuses, consignees, managers, shipmentService }) => {
 
   const { handleSubmit } = useForm<FormData>();
 
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
-
-  const onSubmit = (data: any) => { };
 
   const countryOptions = countries.map(country => <option value={country.id} key={country.id}>{country.name}</option>)
 
@@ -32,6 +32,11 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   const consigneeOptions = consignees.map(consignee => <option value={consignee.id} key={consignee.id}>{consignee.name}</option>)
 
   const managerOptions = managers.map(manager => <option value={manager.id} key={manager.id}>{manager.first_name}{' '}{manager.last_name}</option>)
+
+  
+  const onSubmit = (data: FormData) => {
+  // TODO we need to convert the FormData into a DbShipment, to then call `shipmentService.create` with it.  
+  }
 
   return (
     <FormWrapper>
