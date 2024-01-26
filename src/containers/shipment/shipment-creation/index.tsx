@@ -1,4 +1,4 @@
-import { Button, HStack, Heading, VStack } from '@chakra-ui/react';
+import { Heading, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { ShipmentCreationGeneralComponent } from '../../../components/shipment/creation/general';
 import { ShipmentCreationPackingListComponent } from '../../../components/shipment/creation/packing-list';
@@ -67,15 +67,6 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
       <ShipmentCreationGeneralComponent countries={countries} shipmentTypes={shipmentTypes} shipmentStatuses={shipmentStatuses} consignees={consignees} managers={managers} />
       <ShipmentCreationPackingListComponent startCollapsed={false} donors={donors} />
       <ShipmentCreationTrackingComponent startCollapsed={true} />
-      {/* TODO can we make this HStack left aligned? */}
-      <HStack spacing={20} align="left">
-        <Button colorScheme="blue" variant="outline">
-          Cancel
-        </Button>
-        <Button colorScheme="blue" variant="solid">
-          Save
-        </Button>
-      </HStack>
     </VStack>
   );
 };
