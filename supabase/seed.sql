@@ -42,13 +42,13 @@ values
         ,'authenticated'
         ,'authenticated'
         ,'test.user@aidpioneers.com'
-        ,'$2a$10$xe7OfLHvq2aPTc6xz.Ja6OZ.6GzBCk86WyZqOJZG1CWIxXQ72zKlu'
+        ,'$2a$10$3sUm3VHgi2j/BWZbHmBTJeZ7hLkd9SHdJlmWWv30U8GgiCJwQ4ram' /* Password123 */
         ,'811c1ec831131e9d56e6bd83546cd6e140080596cae1f2381087d701'
         ,'2023-12-28 19:53:53.701273+00'
         ,'{"provider": "email", "providers": ["email"]}'
         ,'{"first_name": "Mae","last_name": "Martin"}'
-        ,'2023-12-28 19:53:53.69671+00'
-        ,'2023-12-28 19:53:53.704186+00'
+        ,now()
+        ,now()
     );
 
 insert into
