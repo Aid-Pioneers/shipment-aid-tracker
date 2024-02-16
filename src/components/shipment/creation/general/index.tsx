@@ -27,7 +27,9 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   managers,
   shipmentService,
 }) => {
-  const { handleSubmit } = useForm<FormData>();
+  const { handleSubmit, watch } = useForm<FormData>();
+
+  console.log({ watch });
 
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
 
@@ -80,7 +82,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
     <FormWrapper>
       <CollapsibleFormHeaderComponent header="General" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
       <Collapse in={typeof isCollapsed === 'undefined' || !isCollapsed}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <Grid templateColumns="repeat(12, 1fr)" gap={6}>
             <GridItem colSpan={[6, 4]}>
               <label>Origin</label>
@@ -119,7 +121,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
               <Select placeholder="Select option">{shipmentStatusOptions}</Select>
             </GridItem>
           </Grid>
-          <SubmitPanel onCancel={handleCancel} />
+          <SubmitPanel onCancel={handleCancel} onSubmit={handleSubmit(onSubmit)} />
         </form>
       </Collapse>
     </FormWrapper>
