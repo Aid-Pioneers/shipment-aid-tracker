@@ -27,9 +27,11 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   managers,
   shipmentService,
 }) => {
-  const { handleSubmit, watch } = useForm<FormData>();
-
-  console.log({ watch });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
 
@@ -82,46 +84,58 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
     <FormWrapper>
       <CollapsibleFormHeaderComponent header="General" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
       <Collapse in={typeof isCollapsed === 'undefined' || !isCollapsed}>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Grid templateColumns="repeat(12, 1fr)" gap={6}>
             <GridItem colSpan={[6, 4]}>
               <label>Origin</label>
-              <Select placeholder="Select origin">{countryOptions}</Select>
+              <Select placeholder="Select origin" {...register('origin', { required: 'Origin is required' })}>
+                {countryOptions}
+              </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Destination</label>
-              <Select placeholder="Select origin">{countryOptions}</Select>
+              <Select placeholder="Select Destination" {...register('destination', { required: 'Destination is required' })}>
+                {countryOptions}
+              </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Main shipment type</label>
-              <Select placeholder="Select option">{shipmentTypeOptions}</Select>
+              <Select placeholder="Select option" {...register('shipmentType')}>
+                {shipmentTypeOptions}
+              </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Consignee (recipient)</label>
-              <Select placeholder="Select option">{consigneeOptions}</Select>
+              <Select placeholder="Select option" {...register('recipient')}>
+                {consigneeOptions}
+              </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Internal ID</label>
-              <Input size="sm" />
+              <Input size="sm" id="internalId" {...register('internalId')} />
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Managed By</label>
-              <Select placeholder="Select option">{managerOptions}</Select>
+              <Select placeholder="Select option" {...register('managedBy')}>
+                {managerOptions}
+              </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Drive Number:</label>
-              <Input size="sm" />
+              <Input size="sm" {...register('driveNumber')} />
             </GridItem>
             <GridItem colSpan={[6, 8]}>
               <label>Drive Link</label>
-              <Input size="sm" type="url" />
+              <Input size="sm" type="url" {...register('driveLink')} />
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Status</label>
-              <Select placeholder="Select option">{shipmentStatusOptions}</Select>
+              <Select placeholder="Select option" {...register('status', { required: 'status is required' })}>
+                {shipmentStatusOptions}
+              </Select>
             </GridItem>
           </Grid>
-          <SubmitPanel onCancel={handleCancel} onSubmit={handleSubmit(onSubmit)} />
+          <SubmitPanel onCancel={handleCancel} />
         </form>
       </Collapse>
     </FormWrapper>
