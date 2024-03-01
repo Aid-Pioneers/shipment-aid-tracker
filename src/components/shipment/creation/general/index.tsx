@@ -1,7 +1,7 @@
 import { Collapse, Grid, GridItem, Input, Select } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFormContext } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
 import { ShipmentService } from '../../../../services/shipment-service';
 import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
@@ -28,10 +28,11 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   shipmentService,
 }) => {
   const {
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const { register } = useFormContext();
 
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
 
@@ -66,7 +67,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   ));
 
   console.log(shipmentService);
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
       // TODO we need to convert the FormData into a DbShipment, to then call `shipmentService.create` with it.
       // const response = await shipmentService.create(data);
