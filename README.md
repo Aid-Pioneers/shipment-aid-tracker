@@ -1,23 +1,33 @@
 # Shipment Aid Tracker
+
 [![CI](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/ci.yml)
 [![Deploy](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/deploy.yaml/badge.svg)](https://github.com/Aid-Pioneers/shipment-aid-tracker/actions/workflows/deploy.yaml)
 
 A web-app that facilitates the tracking of aid shipments around the world!
 
-Built as a React frontend backed by Supabase. Supabase is an open source Firebase alternative for building secure and performant Postgres backends with minimal configuration. Read more about it at https://supabase.com/docs/guides/getting-started.
+Built as a React frontend backed by Supabase. Supabase is an open source
+Firebase alternative for building secure and performant Postgres backends with
+minimal configuration. Read more about it at
+https://supabase.com/docs/guides/getting-started.
 
 ## Deployments
+
 CI and deployments are handled via GitHub actions.
 
 For CI, we verify that the types are up-to-date against the production schema.
 
-On deployment we run all database migrations against the production database and deploy our application to github pages: https://aid-pioneers.github.io/shipment-aid-tracker/.
+On deployment we run all database migrations against the production database and
+deploy our application to github pages:
+https://aid-pioneers.github.io/shipment-aid-tracker/.
+
 ## Quick Start
+
 To get up and running quickly follow the steps below 👇
 
 ### 1. Install the `supabase` CLI
-The CLI allows us to configure a local supabase installation and develop against it, as well as to link to and udpate our production supabase instance.
 
+The CLI allows us to configure a local supabase installation and develop against
+it, as well as to link to and udpate our production supabase instance.
 
 ```sh
 # installs the CLI locally (recommended)
@@ -27,49 +37,65 @@ npm install --include=dev
 npm install -g supabase
 ```
 
-If installing locally then all `supabase` CLI commands must be prefixed with `npx` e.g. `npx supabase init`; if installed globally then the `npx` prefix is not required and just `supabase init` will suffice.
+If installing locally then all `supabase` CLI commands must be prefixed with
+`npx` e.g. `npx supabase init`; if installed globally then the `npx` prefix is
+not required and just `supabase init` will suffice.
 
 ### 2. Start supabase locally
 
-This will pull down all of the various docker images required to run supabase locally and runs them. It might take a few minutes the first time you run it!
+This will pull down all of the various docker images required to run supabase
+locally and runs them. It might take a few minutes the first time you run it!
 
 ```sh
 npx supabase start
 ```
 
-At the end of this process it will print out a number of useful endpoints, which you can see at any time by running
+At the end of this process it will print out a number of useful endpoints, which
+you can see at any time by running
 
 ```sh
 npx supabase status
 ```
 
-If you visit the Studio URL (`http://localhost:54323/projects`) then you will be able to interact with the Supabase UI for your local project.
+If you visit the Studio URL (`http://localhost:54323/projects`) then you will be
+able to interact with the Supabase UI for your local project.
 
 ### 3. Run the database migrations
-Everything is now up and running, but our database is empty. To run the migrations (and seed the tables with data) run
+
+Everything is now up and running, but our database is empty. To run the
+migrations (and seed the tables with data) run
 
 ```sh
 npx supabase db reset
 ```
 
 ### 4. Install and run the application
+
 Run
 
 ```sh
 npm install && npm start
 ```
 
-to start the app and open it in your web browser at [http://localhost:3000](http://localhost:3000).
+to start the app and open it in your web browser at
+[http://localhost:3000](http://localhost:3000).
 
-The page will reload if you make edits. You will also see any lint errors in the console.
+The page will reload if you make edits. You will also see any lint errors in the
+console.
 
 ### 5. Go forth and explore
 
-In general the Supabase docs are really good. For more in-depth instructions or troubleshooting, consult the docs at https://supabase.com/docs/guides/getting-started/local-development. They cover things like creating/running DB migrations locally and then pushing them to production.
+In general the Supabase docs are really good. For more in-depth instructions or
+troubleshooting, consult the docs at
+https://supabase.com/docs/guides/getting-started/local-development. They cover
+things like creating/running DB migrations locally and then pushing them to
+production.
 
 ## Advanced Supabase CLI options
 
-You may want to link up to the production supabase instance for a number of reasons:
+You may want to link up to the production supabase instance for a number of
+reasons:
+
 - To perform a diff between local schema and production schema.
 - To migrate schemas in production.
 - To install edge functions.
@@ -77,11 +103,16 @@ You may want to link up to the production supabase instance for a number of reas
 To do this, you will need to do a couple of things:
 
 ### 1. Create a Supabase account and create a personal access token
-This will enable you to create things like personal API tokens, which are needed to hit Supabase APIs locally.
 
-Visit https://supabase.com/dashboard/sign-in to create an account (you can OAuth with your GitHub account) before then navigating to https://supabase.com/dashboard/account/tokens to create a personal access token.
+This will enable you to create things like personal API tokens, which are needed
+to hit Supabase APIs locally.
 
-**Note: once you have created a personal access token, you will need to keep a record of it as it will only be shown once!**
+Visit https://supabase.com/dashboard/sign-in to create an account (you can OAuth
+with your GitHub account) before then navigating to
+https://supabase.com/dashboard/account/tokens to create a personal access token.
+
+**Note: once you have created a personal access token, you will need to keep a
+record of it as it will only be shown once!**
 
 ### 2. Login locally
 
@@ -101,16 +132,20 @@ Run
 npx supabase link --project-ref <project-id>
 ```
 
-where `<project-id>` is the ID of the supabase project, which you can find by looking at the GithubAction variables.
+where `<project-id>` is the ID of the supabase project, which you can find by
+looking at the GithubAction variables.
 
-It may prompt you for the root password - if this is skipped then you will not be able to make changes to the production database, but you will be able to make changes to other things via the CLI.
+It may prompt you for the root password - if this is skipped then you will not
+be able to make changes to the production database, but you will be able to make
+changes to other things via the CLI.
 
 ### 4. Run commands
 
-For example, to generate TypeScript types for all of the tables in the production DB you can run the following command:
+For example, to generate TypeScript types for all of the tables in the
+production DB you can run the following command:
 
 ```sh
- npx supabase gen types typescript --project-id "<project-id>" --schema public > ./types/database.types.ts
+npx supabase gen types typescript --project-id "<project-id>" --schema public > ./src/types/database.types.ts
 ```
 
 this is also possible to run against your local DB.
@@ -118,15 +153,25 @@ this is also possible to run against your local DB.
 ## Troubleshooting
 
 ### Signing up and signing in locally
-Email confirmation can be enabled/disabled for local development by updating the local [supabase config](./supabase/config.toml).
 
-If enabled, then any confirmation emails will be routed to a locally running [InBucket](http://localhost:54324/) and
-can be responded to there. Supabase will not send an email to an actual email server e.g. gmail!
+Email confirmation can be enabled/disabled for local development by updating the
+local [supabase config](./supabase/config.toml).
+
+If enabled, then any confirmation emails will be routed to a locally running
+[InBucket](http://localhost:54324/) and can be responded to there. Supabase will
+not send an email to an actual email server e.g. gmail!
 
 ### My deployment failed
-Take a look at the GitHub actions output. The most common causes of failed deployments are:
-- **Linting errors** - an unused import or variable has been found and this causes the deployments to fail. Keeping our code clean!
-- **The Supbase project cannot be connected to or found** - the project hasn't been used in a few days and (since we are on the free tier) it has been paused by Supabase. Simply logging into the dashboard and restoring the project should fix it.
+
+Take a look at the GitHub actions output. The most common causes of failed
+deployments are:
+
+- **Linting errors** - an unused import or variable has been found and this
+  causes the deployments to fail. Keeping our code clean!
+- **The Supbase project cannot be connected to or found** - the project hasn't
+  been used in a few days and (since we are on the free tier) it has been paused
+  by Supabase. Simply logging into the dashboard and restoring the project
+  should fix it.
 
 ## Available Scripts
 
@@ -135,14 +180,19 @@ In the project directory, you can run:
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+See the section about
+[running tests](https://facebook.github.io/create-react-app/docs/running-tests)
+for more information.
 
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+It correctly bundles React in production mode and optimizes the build for the
+best performance.
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+See the section about
+[deployment](https://facebook.github.io/create-react-app/docs/deployment) for
+more information.

@@ -1,4 +1,10 @@
 insert into
+    public.role (role)
+values
+    ('manager'),
+    ('donor');
+
+insert into
     public.shipment_status (status)
 values
     ('Planned'),
