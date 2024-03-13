@@ -1,12 +1,13 @@
 import { Collapse, Grid, GridItem, Input, Select } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState } from 'react';
-import { useForm, useFormContext } from 'react-hook-form';
+import { SubmitHandler, useForm, useFormContext } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
 import { ShipmentService } from '../../../../services/shipment-service';
-import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
+import { DbConsignee, DbCountry, DbProfile, DbShipment, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 import { SubmitPanel } from '../../common/submit-panel';
+import { Database, Tables, Enums } from '../../../../types/database.types';
 
 interface GeneralComponentProps {
   startCollapsed?: boolean;
@@ -17,6 +18,18 @@ interface GeneralComponentProps {
   managers: DbProfile[];
   shipmentService: ShipmentService;
 }
+
+type FormValuesGeneral = {
+  origin: Tables<'country'>;
+  destination: Tables<'country'>;
+  shipmentType: Tables<'shipment_type'>;
+  recipient: Tables<'donor'>;
+  internalId: string; // TODO where should we save this? How is it used?
+  managedBy: Database['public']['Tables']['shipment_manager']['Row']['profile_id']; // TODO we need to update this once we've created the shipment so that we have the ID.
+  driveNumber: number; // TODO where should we save this? How is it used?
+  driveLink: Database['public']['Tables']['shipment']['Row']['drive_link'];
+  status: Database['public']['Tables']['shipment']['Row']['status_id'];
+};
 
 export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({
   startCollapsed,
@@ -30,7 +43,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   const {
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValuesGeneral>();
 
   const { register } = useFormContext();
 
@@ -66,12 +79,10 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
     </option>
   ));
 
-  console.log(shipmentService);
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<FormValuesGeneral> = async (data) => {
     try {
-      // TODO we need to convert the FormData into a DbShipment, to then call `shipmentService.create` with it.
-      // const response = await shipmentService.create(data);
-      // console.log('Submission response:', response);
+      console.log(data);
+      console.log(shipmentService);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
