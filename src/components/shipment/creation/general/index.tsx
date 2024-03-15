@@ -1,13 +1,13 @@
 import { Collapse, Grid, GridItem, Input, Select } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState } from 'react';
-import { SubmitHandler, useForm, useFormContext } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
 import { ShipmentService } from '../../../../services/shipment-service';
-import { DbConsignee, DbCountry, DbProfile, DbShipment, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
+import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
+import { Database } from '../../../../types/database.types';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 import { SubmitPanel } from '../../common/submit-panel';
-import { Database, Tables, Enums } from '../../../../types/database.types';
 
 interface GeneralComponentProps {
   startCollapsed?: boolean;
@@ -19,17 +19,11 @@ interface GeneralComponentProps {
   shipmentService: ShipmentService;
 }
 
-type FormValuesGeneral = {
-  origin: Tables<'country'>;
-  destination: Tables<'country'>;
-  shipmentType: Tables<'shipment_type'>;
-  recipient: Tables<'donor'>;
-  internalId: string; // TODO where should we save this? How is it used?
-  managedBy: Database['public']['Tables']['shipment_manager']['Row']['profile_id']; // TODO we need to update this once we've created the shipment so that we have the ID.
-  driveNumber: number; // TODO where should we save this? How is it used?
-  driveLink: Database['public']['Tables']['shipment']['Row']['drive_link'];
-  status: Database['public']['Tables']['shipment']['Row']['status_id'];
-};
+type FormValuesShipment = Database['public']['Tables']['shipment']['Insert'];
+
+type FormValuesShipmentManager = Database['public']['Tables']['shipment_manager']['Insert'];
+
+type FormValuesGeneral = FormValuesShipment & FormValuesShipmentManager;
 
 export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({
   startCollapsed,
@@ -40,13 +34,6 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   managers,
   shipmentService,
 }) => {
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValuesGeneral>();
-
-  const { register } = useFormContext();
-
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
 
   const countryOptions = countries.map((country) => (
@@ -79,10 +66,14 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
     </option>
   ));
 
-  const onSubmit: SubmitHandler<FormValuesGeneral> = async (data) => {
+  const onSubmit: SubmitHandler<FormValuesGeneral> = async (data: FormValuesGeneral) => {
     try {
-      console.log(data);
-      console.log(shipmentService);
+      const shipment = {
+        ...data,
+        profile_id: undefined,
+      };
+
+      await shipmentService.create(shipment, data.profile_id);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -92,6 +83,8 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
     console.log('Form submission cancelled');
   };
 
+  const { register, handleSubmit } = useForm<FormValuesGeneral>();
+
   return (
     <FormWrapper>
       <CollapsibleFormHeaderComponent header="General" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
@@ -100,49 +93,49 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
           <Grid templateColumns="repeat(12, 1fr)" gap={6}>
             <GridItem colSpan={[6, 4]}>
               <label>Origin</label>
-              <Select placeholder="Select origin" {...register('origin', { required: 'Origin is required' })}>
+              <Select placeholder="Select origin" {...register('origin_id', { required: 'Origin is required' })}>
                 {countryOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Destination</label>
-              <Select placeholder="Select Destination" {...register('destination', { required: 'Destination is required' })}>
+              <Select placeholder="Select Destination" {...register('destination_id', { required: 'Destination is required' })}>
                 {countryOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Main shipment type</label>
-              <Select placeholder="Select option" {...register('shipmentType')}>
+              <Select placeholder="Select option" {...register('main_shipment_type_id')}>
                 {shipmentTypeOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Consignee (recipient)</label>
-              <Select placeholder="Select option" {...register('recipient')}>
+              <Select placeholder="Select option" {...register('consignee_id')}>
                 {consigneeOptions}
               </Select>
             </GridItem>
-            <GridItem colSpan={[6, 4]}>
+            {/* <GridItem colSpan={[6, 4]}>
               <label>Internal ID</label>
               <Input size="sm" id="internalId" {...register('internalId')} />
-            </GridItem>
+            </GridItem> */}
             <GridItem colSpan={[6, 4]}>
               <label>Managed By</label>
-              <Select placeholder="Select option" {...register('managedBy')}>
+              <Select placeholder="Select option" {...register('profile_id')}>
                 {managerOptions}
               </Select>
             </GridItem>
-            <GridItem colSpan={[6, 4]}>
+            {/* <GridItem colSpan={[6, 4]}>
               <label>Drive Number:</label>
-              <Input size="sm" {...register('driveNumber')} />
-            </GridItem>
+              <Input size="sm" {...register('drive_number')} />
+            </GridItem> */}
             <GridItem colSpan={[6, 8]}>
               <label>Drive Link</label>
-              <Input size="sm" type="url" {...register('driveLink')} />
+              <Input size="sm" type="url" {...register('drive_link')} />
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Status</label>
-              <Select placeholder="Select option" {...register('status', { required: 'status is required' })}>
+              <Select placeholder="Select option" {...register('status_id', { required: true })}>
                 {shipmentStatusOptions}
               </Select>
             </GridItem>
