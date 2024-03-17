@@ -86,7 +86,7 @@ insert into auth.users (
     ,null
     ,current_timestamp
     ,'{"provider": "email" ,"providers": ["email"]}'
-    ,'{"last_name": "Jon","first_name": "Doe"}'
+    ,'{"first_name": "Jon", "last_name": "Doe"}'
     ,null
     ,current_timestamp
     ,current_timestamp
@@ -121,7 +121,7 @@ insert into auth.users (
     ,null
     ,current_timestamp
     ,'{"provider": "email" ,"providers": ["email"]}'
-    ,'{"last_name": "Jane","first_name": "Doe"}'
+    ,'{"first_name": "Jane", "last_name": "Doe"}'
     ,null
     ,current_timestamp
     ,current_timestamp
