@@ -41,30 +41,32 @@ export class ShipmentService {
     shipment: Database["public"]["Tables"]["shipment"]["Insert"],
     shipmentManager: Tables<"shipment_manager">["profile_id"],
   ) {
-    const insertShipment = await this.supabase.from("shipment").insert(shipment)
-      .select();
+    const insertShipmentResponse = await this.supabase.from("shipment").insert(
+      shipment,
+    )
+      .select("id").single();
 
-    const maybeShipment = insertShipment.data?.[0];
+    const maybeShipmentId = insertShipmentResponse.data?.id;
 
-    if (maybeShipment !== undefined) {
+    if (maybeShipmentId !== undefined) {
       const insertShipmentManager = await this.supabase.from("shipment_manager")
         .insert(
           {
             profile_id: shipmentManager,
-            shipment_id: maybeShipment.id,
+            shipment_id: maybeShipmentId,
           },
         );
 
       if (insertShipmentManager.error !== null) {
         console.error(
-          `Failed to create shipment manager relationship with shipment ${maybeShipment.id}`,
+          `Failed to create shipment manager relationship with shipment ${maybeShipmentId}`,
           insertShipmentManager.error,
         );
       }
     } else {
       console.error(
         `Failed to create shipment.`,
-        insertShipment.error,
+        insertShipmentResponse.error,
       );
     }
   }
