@@ -80,7 +80,8 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   };
 
   const handleCancel = async () => {
-    console.log('Form submission cancelled');
+    // TODO https://github.com/Aid-Pioneers/shipment-aid-tracker/issues/53
+    // clear the form when the cancel action is taken
   };
 
   const { register, handleSubmit } = useForm<FormValuesGeneral>();

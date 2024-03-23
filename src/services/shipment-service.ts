@@ -43,19 +43,16 @@ export class ShipmentService {
   ) {
     const insertShipmentResponse = await this.supabase.from("shipment").insert(
       shipment,
-    )
-      .select("id").single();
+    ).select("id").single();
 
     const maybeShipmentId = insertShipmentResponse.data?.id;
 
     if (maybeShipmentId !== undefined) {
       const insertShipmentManager = await this.supabase.from("shipment_manager")
-        .insert(
-          {
-            profile_id: shipmentManager,
-            shipment_id: maybeShipmentId,
-          },
-        );
+        .insert({
+          profile_id: shipmentManager,
+          shipment_id: maybeShipmentId,
+        });
 
       if (insertShipmentManager.error !== null) {
         console.error(
@@ -64,10 +61,7 @@ export class ShipmentService {
         );
       }
     } else {
-      console.error(
-        `Failed to create shipment.`,
-        insertShipmentResponse.error,
-      );
+      console.error(`Failed to create shipment.`, insertShipmentResponse.error);
     }
   }
 }
