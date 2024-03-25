@@ -21,9 +21,9 @@ values
     ('Sierra Leone');
 
 insert into
-    public.shipment (id, project_id, destination_id, origin_id, donor_id, status_id)
+    public.shipment (project_id, destination_id, origin_id, donor_id, status_id)
 values
-    (1, 1, 238,235, 1, 1);
+    (1, 238,235, 1, 1);
 
 insert into
     public.pallet (id, shipment_id)
@@ -86,7 +86,7 @@ insert into auth.users (
     ,null
     ,current_timestamp
     ,'{"provider": "email" ,"providers": ["email"]}'
-    ,'{"last_name": "Jon","first_name": "Doe"}'
+    ,'{"first_name": "Jon", "last_name": "Doe"}'
     ,null
     ,current_timestamp
     ,current_timestamp
@@ -121,7 +121,7 @@ insert into auth.users (
     ,null
     ,current_timestamp
     ,'{"provider": "email" ,"providers": ["email"]}'
-    ,'{"last_name": "Jane","first_name": "Doe"}'
+    ,'{"first_name": "Jane", "last_name": "Doe"}'
     ,null
     ,current_timestamp
     ,current_timestamp

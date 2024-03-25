@@ -1,4 +1,4 @@
-import { Button, HStack, Heading, VStack } from '@chakra-ui/react';
+import { Heading, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { ShipmentCreationGeneralComponent } from '../../../components/shipment/creation/general';
 import { ShipmentCreationPackingListComponent } from '../../../components/shipment/creation/packing-list';
@@ -17,8 +17,13 @@ interface ShipmentCreationContainerProps {
   profileService: ProfileService;
 }
 
-export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps> = ({ shipmentService, countryService, consigneeService, donorService, profileService }) => {
-
+export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps> = ({
+  shipmentService,
+  countryService,
+  consigneeService,
+  donorService,
+  profileService,
+}) => {
   const [countries, setCountries] = useState<DbCountry[]>([]);
   const [shipmentTypes, setShipmentTypes] = useState<DbShipmentType[]>([]);
   const [shipmentStatuses, setShipmentStatuses] = useState<DbShipmentStatus[]>([]);
@@ -49,10 +54,11 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
           (data) => setDonors(data),
           (error) => console.error(error)
         ),
-        profileService.fetchProfiles(['manager'],
+        profileService.fetchProfiles(
+          ['manager'],
           (data) => setManagers(data),
           (error) => console.error(error)
-        )
+        ),
       ]);
     };
     loadData();
@@ -64,18 +70,16 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
     <VStack>
       {/* TODO can we make this h1 left aligned? */}
       <Heading as="h1">Create a shipment</Heading>
-      <ShipmentCreationGeneralComponent countries={countries} shipmentTypes={shipmentTypes} shipmentStatuses={shipmentStatuses} consignees={consignees} managers={managers} />
+      <ShipmentCreationGeneralComponent
+        countries={countries}
+        shipmentTypes={shipmentTypes}
+        shipmentStatuses={shipmentStatuses}
+        consignees={consignees}
+        managers={managers}
+        shipmentService={shipmentService}
+      />
       <ShipmentCreationPackingListComponent startCollapsed={false} donors={donors} />
       <ShipmentCreationTrackingComponent startCollapsed={true} />
-      {/* TODO can we make this HStack left aligned? */}
-      <HStack spacing={20} align="left">
-        <Button colorScheme="blue" variant="outline">
-          Cancel
-        </Button>
-        <Button colorScheme="blue" variant="solid">
-          Save
-        </Button>
-      </HStack>
     </VStack>
   );
 };

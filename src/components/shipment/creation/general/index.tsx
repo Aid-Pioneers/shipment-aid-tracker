@@ -1,37 +1,90 @@
 import { Collapse, Grid, GridItem, Input, Select } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
+import { ShipmentService } from '../../../../services/shipment-service';
 import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
+import { Database } from '../../../../types/database.types';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
+import { SubmitPanel } from '../../common/submit-panel';
 
 interface GeneralComponentProps {
-  startCollapsed?: boolean,
-  countries: DbCountry[],
-  shipmentTypes: DbShipmentType[],
-  shipmentStatuses: DbShipmentStatus[],
-  consignees: DbConsignee[],
-  managers: DbProfile[]
+  startCollapsed?: boolean;
+  countries: DbCountry[];
+  shipmentTypes: DbShipmentType[];
+  shipmentStatuses: DbShipmentStatus[];
+  consignees: DbConsignee[];
+  managers: DbProfile[];
+  shipmentService: ShipmentService;
 }
 
-export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({ startCollapsed, countries, shipmentTypes, shipmentStatuses, consignees, managers }) => {
+type FormValuesShipment = Database['public']['Tables']['shipment']['Insert'];
 
-  const { handleSubmit } = useForm<FormData>();
+type FormValuesShipmentManager = Database['public']['Tables']['shipment_manager']['Insert'];
 
+type FormValuesGeneral = FormValuesShipment & FormValuesShipmentManager;
+
+export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({
+  startCollapsed,
+  countries,
+  shipmentTypes,
+  shipmentStatuses,
+  consignees,
+  managers,
+  shipmentService,
+}) => {
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
 
-  const onSubmit = (data: any) => { };
+  const countryOptions = countries.map((country) => (
+    <option value={country.id} key={country.id}>
+      {country.name}
+    </option>
+  ));
 
-  const countryOptions = countries.map(country => <option value={country.id} key={country.id}>{country.name}</option>)
+  const shipmentTypeOptions = shipmentTypes.map((shipmentType) => (
+    <option value={shipmentType.id} key={shipmentType.id}>
+      {shipmentType.shipment_type}
+    </option>
+  ));
 
-  const shipmentTypeOptions = shipmentTypes.map(shipmentType => <option value={shipmentType.id} key={shipmentType.id}>{shipmentType.shipment_type}</option>)
+  const shipmentStatusOptions = shipmentStatuses.map((shipmentStatus) => (
+    <option value={shipmentStatus.id} key={shipmentStatus.id}>
+      {shipmentStatus.status}
+    </option>
+  ));
 
-  const shipmentStatusOptions = shipmentStatuses.map(shipmentStatus => <option value={shipmentStatus.id} key={shipmentStatus.id}>{shipmentStatus.status}</option>)
+  const consigneeOptions = consignees.map((consignee) => (
+    <option value={consignee.id} key={consignee.id}>
+      {consignee.name}
+    </option>
+  ));
 
-  const consigneeOptions = consignees.map(consignee => <option value={consignee.id} key={consignee.id}>{consignee.name}</option>)
+  const managerOptions = managers.map((manager) => (
+    <option value={manager.id} key={manager.id}>
+      {manager.first_name} {manager.last_name}
+    </option>
+  ));
 
-  const managerOptions = managers.map(manager => <option value={manager.id} key={manager.id}>{manager.first_name}{' '}{manager.last_name}</option>)
+  const onSubmit: SubmitHandler<FormValuesGeneral> = async (data: FormValuesGeneral) => {
+    try {
+      const shipment = {
+        ...data,
+        profile_id: undefined,
+      };
+
+      await shipmentService.create(shipment, data.profile_id);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
+  const handleCancel = async () => {
+    // TODO https://github.com/Aid-Pioneers/shipment-aid-tracker/issues/53
+    // clear the form when the cancel action is taken
+  };
+
+  const { register, handleSubmit } = useForm<FormValuesGeneral>();
 
   return (
     <FormWrapper>
@@ -41,55 +94,56 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
           <Grid templateColumns="repeat(12, 1fr)" gap={6}>
             <GridItem colSpan={[6, 4]}>
               <label>Origin</label>
-              <Select placeholder="Select origin">
+              <Select placeholder="Select origin" {...register('origin_id', { required: 'Origin is required' })}>
                 {countryOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Destination</label>
-              <Select placeholder="Select origin">
+              <Select placeholder="Select Destination" {...register('destination_id', { required: 'Destination is required' })}>
                 {countryOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Main shipment type</label>
-              <Select placeholder="Select option">
+              <Select placeholder="Select option" {...register('main_shipment_type_id')}>
                 {shipmentTypeOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Consignee (recipient)</label>
-              <Select placeholder="Select option">
+              <Select placeholder="Select option" {...register('consignee_id')}>
                 {consigneeOptions}
               </Select>
             </GridItem>
-            <GridItem colSpan={[6, 4]}>
+            {/* <GridItem colSpan={[6, 4]}>
               <label>Internal ID</label>
-              <Input size="sm" />
-            </GridItem>
+              <Input size="sm" id="internalId" {...register('internalId')} />
+            </GridItem> */}
             <GridItem colSpan={[6, 4]}>
               <label>Managed By</label>
-              <Select placeholder="Select option">
+              <Select placeholder="Select option" {...register('profile_id')}>
                 {managerOptions}
               </Select>
             </GridItem>
-            <GridItem colSpan={[6, 4]}>
+            {/* <GridItem colSpan={[6, 4]}>
               <label>Drive Number:</label>
-              <Input size="sm" />
-            </GridItem>
+              <Input size="sm" {...register('drive_number')} />
+            </GridItem> */}
             <GridItem colSpan={[6, 8]}>
               <label>Drive Link</label>
-              <Input size="sm" type="url" />
+              <Input size="sm" type="url" {...register('drive_link')} />
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Status</label>
-              <Select placeholder="Select option">
+              <Select placeholder="Select option" {...register('status_id', { required: true })}>
                 {shipmentStatusOptions}
               </Select>
             </GridItem>
           </Grid>
+          <SubmitPanel onCancel={handleCancel} />
         </form>
       </Collapse>
-    </FormWrapper >
+    </FormWrapper>
   );
 };
