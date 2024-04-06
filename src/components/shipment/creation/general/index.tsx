@@ -8,6 +8,7 @@ import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } f
 import { Database } from '../../../../types/database.types';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 import { SubmitPanel } from '../../common/submit-panel';
+import { useNavigate } from 'react-router-dom';
 
 interface GeneralComponentProps {
   startCollapsed?: boolean;
@@ -35,6 +36,8 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   shipmentService,
 }) => {
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
+
+  const navigate = useNavigate();
 
   const countryOptions = countries.map((country) => (
     <option value={country.id} key={country.id}>
@@ -73,7 +76,11 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
         profile_id: undefined,
       };
 
-      await shipmentService.create(shipment, data.profile_id);
+      const shipmentId = await shipmentService.create(shipment, data.profile_id);
+
+      if (shipmentId !== undefined) {
+        navigate(`/shipments/${shipmentId}/`);
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -116,20 +123,20 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
                 {consigneeOptions}
               </Select>
             </GridItem>
-            {/* <GridItem colSpan={[6, 4]}>
+            <GridItem colSpan={[6, 4]}>
               <label>Internal ID</label>
-              <Input size="sm" id="internalId" {...register('internalId')} />
-            </GridItem> */}
+              <Input size="sm" id="internalId" />
+            </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Managed By</label>
               <Select placeholder="Select option" {...register('profile_id')}>
                 {managerOptions}
               </Select>
             </GridItem>
-            {/* <GridItem colSpan={[6, 4]}>
+            <GridItem colSpan={[6, 4]}>
               <label>Drive Number:</label>
-              <Input size="sm" {...register('drive_number')} />
-            </GridItem> */}
+              <Input size="sm" />
+            </GridItem>
             <GridItem colSpan={[6, 8]}>
               <label>Drive Link</label>
               <Input size="sm" type="url" {...register('drive_link')} />
