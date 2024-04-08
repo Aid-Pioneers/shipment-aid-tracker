@@ -37,6 +37,12 @@ export class ShipmentService {
     return error ? onError(error) : onSuccess(data);
   }
 
+  async update(
+    shipment: Database["public"]["Tables"]["shipment"]["Update"],
+  ) {
+    this.supabase.from("shipment").update(shipment);
+  }
+
   async create(
     shipment: Database["public"]["Tables"]["shipment"]["Insert"],
     shipmentManager: Tables<"shipment_manager">["profile_id"],
@@ -60,6 +66,8 @@ export class ShipmentService {
           insertShipmentManager.error,
         );
       }
+
+      return maybeShipmentId;
     } else {
       console.error(`Failed to create shipment.`, insertShipmentResponse.error);
     }

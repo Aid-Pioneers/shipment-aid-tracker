@@ -1,14 +1,12 @@
 import { Heading, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { ShipmentCreationGeneralComponent } from '../../../components/shipment/creation/general';
-import { ShipmentCreationPackingListComponent } from '../../../components/shipment/creation/packing-list';
-import { ShipmentCreationTrackingComponent } from '../../../components/shipment/creation/tracking';
 import { ConsigneeService } from '../../../services/consignee-service';
 import { CountryService } from '../../../services/country-service';
 import { DonorService } from '../../../services/donor-service';
 import { ProfileService } from '../../../services/profile-service';
 import { ShipmentService } from '../../../services/shipment-service';
-import { DbConsignee, DbCountry, DbDonor, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../types/aliases';
+import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../types/aliases';
 interface ShipmentCreationContainerProps {
   shipmentService: ShipmentService;
   countryService: CountryService;
@@ -28,7 +26,6 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
   const [shipmentTypes, setShipmentTypes] = useState<DbShipmentType[]>([]);
   const [shipmentStatuses, setShipmentStatuses] = useState<DbShipmentStatus[]>([]);
   const [consignees, setConsignees] = useState<DbConsignee[]>([]);
-  const [donors, setDonors] = useState<DbDonor[]>([]);
   const [managers, setManagers] = useState<DbProfile[]>([]);
 
   useEffect(() => {
@@ -48,10 +45,6 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
         ),
         consigneeService.fetchConsignees(
           (data) => setConsignees(data),
-          (error) => console.error(error)
-        ),
-        donorService.fetchDonors(
-          (data) => setDonors(data),
           (error) => console.error(error)
         ),
         profileService.fetchProfiles(
@@ -78,8 +71,6 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
         managers={managers}
         shipmentService={shipmentService}
       />
-      <ShipmentCreationPackingListComponent startCollapsed={false} donors={donors} />
-      <ShipmentCreationTrackingComponent startCollapsed={true} />
     </VStack>
   );
 };
