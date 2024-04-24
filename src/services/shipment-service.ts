@@ -1,6 +1,6 @@
-import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
-import { DbShipment, DbShipmentStatus, DbShipmentType } from "../types/aliases";
-import { Database, Tables } from "../types/database.types";
+import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
+import { DbShipment, DbShipmentStatus, DbShipmentType } from '../types/aliases';
+import { Database, Tables } from '../types/database.types';
 
 export class ShipmentService {
   supabase: SupabaseClient<Database>;
@@ -9,62 +9,44 @@ export class ShipmentService {
     this.supabase = supabase;
   }
 
-  async fetchShipments(
-    onSuccess: (projects: DbShipment[]) => void,
-    onError: (error: PostgrestError) => void,
-  ) {
-    const { data, error } = await this.supabase.from("shipment").select("*");
+  async fetchShipment(onSuccess: (projects: DbShipment) => void, onError: (error: PostgrestError) => void) {
+    // TODO pass in shipment ID to display the view page this right now just grabs all the shipments in the table
+    const { data, error } = await this.supabase.from('shipment').select('*');
     return error ? onError(error) : onSuccess(data);
   }
 
-  async fetchShipmentTypes(
-    onSuccess: (projects: DbShipmentType[]) => void,
-    onError: (error: PostgrestError) => void,
-  ) {
-    const { data, error } = await this.supabase.from("shipment_type").select(
-      "*",
-    );
+  async fetchShipments(onSuccess: (projects: DbShipment[]) => void, onError: (error: PostgrestError) => void) {
+    const { data, error } = await this.supabase.from('shipment').select('*');
     return error ? onError(error) : onSuccess(data);
   }
 
-  async fetchShipmentStatuses(
-    onSuccess: (projects: DbShipmentStatus[]) => void,
-    onError: (error: PostgrestError) => void,
-  ) {
-    const { data, error } = await this.supabase.from("shipment_status").select(
-      "*",
-    );
+  async fetchShipmentTypes(onSuccess: (projects: DbShipmentType[]) => void, onError: (error: PostgrestError) => void) {
+    const { data, error } = await this.supabase.from('shipment_type').select('*');
     return error ? onError(error) : onSuccess(data);
   }
 
-  async update(
-    shipment: Database["public"]["Tables"]["shipment"]["Update"],
-  ) {
-    this.supabase.from("shipment").update(shipment);
+  async fetchShipmentStatuses(onSuccess: (projects: DbShipmentStatus[]) => void, onError: (error: PostgrestError) => void) {
+    const { data, error } = await this.supabase.from('shipment_status').select('*');
+    return error ? onError(error) : onSuccess(data);
   }
 
-  async create(
-    shipment: Database["public"]["Tables"]["shipment"]["Insert"],
-    shipmentManager: Tables<"shipment_manager">["profile_id"],
-  ) {
-    const insertShipmentResponse = await this.supabase.from("shipment").insert(
-      shipment,
-    ).select("id").single();
+  async update(shipment: Database['public']['Tables']['shipment']['Update']) {
+    this.supabase.from('shipment').update(shipment);
+  }
+
+  async create(shipment: Database['public']['Tables']['shipment']['Insert'], shipmentManager: Tables<'shipment_manager'>['profile_id']) {
+    const insertShipmentResponse = await this.supabase.from('shipment').insert(shipment).select('id').single();
 
     const maybeShipmentId = insertShipmentResponse.data?.id;
 
     if (maybeShipmentId !== undefined) {
-      const insertShipmentManager = await this.supabase.from("shipment_manager")
-        .insert({
-          profile_id: shipmentManager,
-          shipment_id: maybeShipmentId,
-        });
+      const insertShipmentManager = await this.supabase.from('shipment_manager').insert({
+        profile_id: shipmentManager,
+        shipment_id: maybeShipmentId,
+      });
 
       if (insertShipmentManager.error !== null) {
-        console.error(
-          `Failed to create shipment manager relationship with shipment ${maybeShipmentId}`,
-          insertShipmentManager.error,
-        );
+        console.error(`Failed to create shipment manager relationship with shipment ${maybeShipmentId}`, insertShipmentManager.error);
       }
 
       return maybeShipmentId;
