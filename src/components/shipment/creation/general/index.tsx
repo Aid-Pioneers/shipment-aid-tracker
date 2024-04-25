@@ -1,6 +1,6 @@
 import { Collapse, Grid, GridItem, Input, Select } from '@chakra-ui/react';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
 import { ShipmentService } from '../../../../services/shipment-service';
@@ -9,57 +9,89 @@ import { Database } from '../../../../types/database.types';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 import { SubmitPanel } from '../../common/submit-panel';
 import { useNavigate } from 'react-router-dom';
+import { CountryService } from '../../../../services/country-service';
+import { ConsigneeService } from '../../../../services/consignee-service';
+import { ProfileService } from '../../../../services/profile-service';
 
 interface GeneralComponentProps {
   startCollapsed?: boolean;
+  shipmentService: ShipmentService;
+  countryService: CountryService;
+  consigneeService: ConsigneeService;
+  profileService: ProfileService;
+}
+
+interface FormData {
   countries: DbCountry[];
   shipmentTypes: DbShipmentType[];
   shipmentStatuses: DbShipmentStatus[];
   consignees: DbConsignee[];
   managers: DbProfile[];
-  shipmentService: ShipmentService;
 }
 
 type FormValuesShipment = Database['public']['Tables']['shipment']['Insert'];
 
 export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({
   startCollapsed,
-  countries,
-  shipmentTypes,
-  shipmentStatuses,
-  consignees,
-  managers,
+  countryService,
   shipmentService,
+  consigneeService,
+  profileService,
 }) => {
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
 
   const navigate = useNavigate();
 
-  const countryOptions = countries.map((country) => (
+  const [formData, setFormData] = useState<FormData>();
+
+  useEffect(() => {
+    const loadData = async () => {
+      const [countries, shipmentTypes, shipmentStatuses, consignees, profiles] = await Promise.all([
+        countryService.fetchCountries(),
+        shipmentService.fetchShipmentTypes(),
+        shipmentService.fetchShipmentStatuses(),
+        consigneeService.fetchConsignees(),
+        profileService.fetchProfiles(['manager']),
+      ]);
+
+      if (countries.data && shipmentTypes.data && shipmentStatuses.data && consignees.data && profiles.data) {
+        setFormData({
+          countries: countries.data,
+          shipmentTypes: shipmentTypes.data,
+          shipmentStatuses: shipmentStatuses.data,
+          consignees: consignees.data,
+          managers: profiles.data,
+        });
+      }
+    };
+    loadData();
+  }, [shipmentService, countryService, consigneeService, profileService]);
+
+  const countryOptions = formData?.countries.map((country) => (
     <option value={country.id} key={country.id}>
       {country.name}
     </option>
   ));
 
-  const shipmentTypeOptions = shipmentTypes.map((shipmentType) => (
+  const shipmentTypeOptions = formData?.shipmentTypes?.map((shipmentType) => (
     <option value={shipmentType.id} key={shipmentType.id}>
       {shipmentType.shipment_type}
     </option>
   ));
 
-  const shipmentStatusOptions = shipmentStatuses.map((shipmentStatus) => (
+  const shipmentStatusOptions = formData?.shipmentStatuses.map((shipmentStatus) => (
     <option value={shipmentStatus.id} key={shipmentStatus.id}>
       {shipmentStatus.status}
     </option>
   ));
 
-  const consigneeOptions = consignees.map((consignee) => (
+  const consigneeOptions = formData?.consignees.map((consignee) => (
     <option value={consignee.id} key={consignee.id}>
       {consignee.name}
     </option>
   ));
 
-  const managerOptions = managers.map((manager) => (
+  const managerOptions = formData?.managers.map((manager) => (
     <option value={manager.id} key={manager.id}>
       {manager.first_name} {manager.last_name}
     </option>

@@ -10,7 +10,6 @@ import { SignUpContainer } from './containers/sign-up';
 import { AuthService } from './services/auth-service';
 import { ConsigneeService } from './services/consignee-service';
 import { CountryService } from './services/country-service';
-import { DonorService } from './services/donor-service';
 import { ProfileService } from './services/profile-service';
 import { ShipmentService } from './services/shipment-service';
 import { Database } from './types/database.types';
@@ -21,7 +20,6 @@ const App: React.FC = () => {
   const shipmentService: ShipmentService = new ShipmentService(supabase);
   const countryService: CountryService = new CountryService(supabase);
   const consigneeService: ConsigneeService = new ConsigneeService(supabase);
-  const donorService: DonorService = new DonorService(supabase);
   const profileService: ProfileService = new ProfileService(supabase);
 
   return (
@@ -39,7 +37,6 @@ const App: React.FC = () => {
                 shipmentService={shipmentService}
                 countryService={countryService}
                 consigneeService={consigneeService}
-                donorService={donorService}
                 profileService={profileService}
               />
             }
