@@ -1,6 +1,6 @@
 import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 import { DbShipment, DbShipmentStatus, DbShipmentType } from "../types/aliases";
-import { Database, Tables } from "../types/database.types";
+import { Database } from "../types/database.types";
 
 export class ShipmentService {
   supabase: SupabaseClient<Database>;
@@ -45,31 +45,9 @@ export class ShipmentService {
 
   async create(
     shipment: Database["public"]["Tables"]["shipment"]["Insert"],
-    shipmentManager: Tables<"shipment_manager">["profile_id"],
   ) {
-    const insertShipmentResponse = await this.supabase.from("shipment").insert(
+    return this.supabase.from("shipment").insert(
       shipment,
     ).select("id").single();
-
-    const maybeShipmentId = insertShipmentResponse.data?.id;
-
-    if (maybeShipmentId !== undefined) {
-      const insertShipmentManager = await this.supabase.from("shipment_manager")
-        .insert({
-          profile_id: shipmentManager,
-          shipment_id: maybeShipmentId,
-        });
-
-      if (insertShipmentManager.error !== null) {
-        console.error(
-          `Failed to create shipment manager relationship with shipment ${maybeShipmentId}`,
-          insertShipmentManager.error,
-        );
-      }
-
-      return maybeShipmentId;
-    } else {
-      console.error(`Failed to create shipment.`, insertShipmentResponse.error);
-    }
   }
 }
