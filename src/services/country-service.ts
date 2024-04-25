@@ -1,6 +1,5 @@
-import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
-import { DbCountry } from '../types/aliases';
-import { Database } from '../types/database.types';
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../types/database.types";
 
 export class CountryService {
   supabase: SupabaseClient<Database>;
@@ -9,8 +8,7 @@ export class CountryService {
     this.supabase = supabase;
   }
 
-  async fetchCountries(onSuccess: (countries: DbCountry[]) => void, onError: (error: PostgrestError) => void) {
-    const { data, error } = await this.supabase.from('country').select('*');
-    return error ? onError(error) : onSuccess(data)
+  async fetchCountries() {
+    return this.supabase.from("country").select("*");
   }
 }
