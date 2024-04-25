@@ -22,10 +22,6 @@ interface GeneralComponentProps {
 
 type FormValuesShipment = Database['public']['Tables']['shipment']['Insert'];
 
-type FormValuesShipmentManager = Database['public']['Tables']['shipment_manager']['Insert'];
-
-type FormValuesGeneral = FormValuesShipment & FormValuesShipmentManager;
-
 export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> = ({
   startCollapsed,
   countries,
@@ -69,14 +65,14 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
     </option>
   ));
 
-  const onSubmit: SubmitHandler<FormValuesGeneral> = async (data: FormValuesGeneral) => {
+  const onSubmit: SubmitHandler<FormValuesShipment> = async (data: FormValuesShipment) => {
     try {
       const shipment = {
         ...data,
         profile_id: undefined,
       };
 
-      const shipmentId = await shipmentService.create(shipment, data.profile_id);
+      const shipmentId = await shipmentService.create(shipment);
 
       if (shipmentId !== undefined) {
         navigate(`/shipments/${shipmentId}/`);
@@ -91,7 +87,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
     // clear the form when the cancel action is taken
   };
 
-  const { register, handleSubmit } = useForm<FormValuesGeneral>();
+  const { register, handleSubmit } = useForm<FormValuesShipment>();
 
   return (
     <FormWrapper>
@@ -129,7 +125,7 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
             </GridItem>
             <GridItem colSpan={[6, 4]}>
               <label>Managed By</label>
-              <Select placeholder="Select option" {...register('profile_id')}>
+              <Select placeholder="Select option" {...register('manager_id')}>
                 {managerOptions}
               </Select>
             </GridItem>
