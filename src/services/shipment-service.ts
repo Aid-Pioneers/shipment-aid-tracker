@@ -1,5 +1,4 @@
-import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
-import { DbShipment, DbShipmentStatus, DbShipmentType } from "../types/aliases";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "../types/database.types";
 
 export class ShipmentService {
@@ -9,32 +8,16 @@ export class ShipmentService {
     this.supabase = supabase;
   }
 
-  async fetchShipments(
-    onSuccess: (projects: DbShipment[]) => void,
-    onError: (error: PostgrestError) => void,
-  ) {
-    const { data, error } = await this.supabase.from("shipment").select("*");
-    return error ? onError(error) : onSuccess(data);
+  async fetchShipments() {
+    return this.supabase.from("shipment").select("*");
   }
 
-  async fetchShipmentTypes(
-    onSuccess: (projects: DbShipmentType[]) => void,
-    onError: (error: PostgrestError) => void,
-  ) {
-    const { data, error } = await this.supabase.from("shipment_type").select(
-      "*",
-    );
-    return error ? onError(error) : onSuccess(data);
+  async fetchShipmentTypes() {
+    return this.supabase.from("shipment_type").select("*");
   }
 
-  async fetchShipmentStatuses(
-    onSuccess: (projects: DbShipmentStatus[]) => void,
-    onError: (error: PostgrestError) => void,
-  ) {
-    const { data, error } = await this.supabase.from("shipment_status").select(
-      "*",
-    );
-    return error ? onError(error) : onSuccess(data);
+  async fetchShipmentStatuses() {
+    return this.supabase.from("shipment_status").select("*");
   }
 
   async update(

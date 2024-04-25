@@ -7,12 +7,21 @@ import { DonorService } from '../../../services/donor-service';
 import { ProfileService } from '../../../services/profile-service';
 import { ShipmentService } from '../../../services/shipment-service';
 import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../types/aliases';
+
 interface ShipmentCreationContainerProps {
   shipmentService: ShipmentService;
   countryService: CountryService;
   consigneeService: ConsigneeService;
   donorService: DonorService;
   profileService: ProfileService;
+}
+
+interface FormData {
+  countries: DbCountry[];
+  shipmentTypes: DbShipmentType[];
+  shipmentStatuses: DbShipmentStatus[];
+  consignees: DbConsignee[];
+  managers: DbProfile[];
 }
 
 export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps> = ({
@@ -22,37 +31,27 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
   donorService,
   profileService,
 }) => {
-  const [countries, setCountries] = useState<DbCountry[]>([]);
-  const [shipmentTypes, setShipmentTypes] = useState<DbShipmentType[]>([]);
-  const [shipmentStatuses, setShipmentStatuses] = useState<DbShipmentStatus[]>([]);
-  const [consignees, setConsignees] = useState<DbConsignee[]>([]);
-  const [managers, setManagers] = useState<DbProfile[]>([]);
+  const [formData, setFormData] = useState<FormData>();
 
   useEffect(() => {
     const loadData = async () => {
-      return Promise.all([
-        countryService.fetchCountries(
-          (data) => setCountries(data),
-          (error) => console.error(error)
-        ),
-        shipmentService.fetchShipmentTypes(
-          (data) => setShipmentTypes(data),
-          (error) => console.error(error)
-        ),
-        shipmentService.fetchShipmentStatuses(
-          (data) => setShipmentStatuses(data),
-          (error) => console.error(error)
-        ),
-        consigneeService.fetchConsignees(
-          (data) => setConsignees(data),
-          (error) => console.error(error)
-        ),
-        profileService.fetchProfiles(
-          ['manager'],
-          (data) => setManagers(data),
-          (error) => console.error(error)
-        ),
+      const [countries, shipmentTypes, shipmentStatuses, consignees, profiles] = await Promise.all([
+        countryService.fetchCountries(),
+        shipmentService.fetchShipmentTypes(),
+        shipmentService.fetchShipmentStatuses(),
+        consigneeService.fetchConsignees(),
+        profileService.fetchProfiles(['manager']),
       ]);
+
+      if (countries.data && shipmentTypes.data && shipmentStatuses.data && consignees.data && profiles.data) {
+        setFormData({
+          countries: countries.data,
+          shipmentTypes: shipmentTypes.data,
+          shipmentStatuses: shipmentStatuses.data,
+          consignees: consignees.data,
+          managers: profiles.data,
+        });
+      }
     };
     loadData();
   }, [shipmentService, countryService, consigneeService, donorService, profileService]);
@@ -64,11 +63,11 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
       {/* TODO can we make this h1 left aligned? */}
       <Heading as="h1">Create a shipment</Heading>
       <ShipmentCreationGeneralComponent
-        countries={countries}
-        shipmentTypes={shipmentTypes}
-        shipmentStatuses={shipmentStatuses}
-        consignees={consignees}
-        managers={managers}
+        countries={formData?.countries || []}
+        shipmentTypes={formData?.shipmentTypes || []}
+        shipmentStatuses={formData?.shipmentStatuses || []}
+        consignees={formData?.consignees || []}
+        managers={formData?.managers || []}
         shipmentService={shipmentService}
       />
     </VStack>
