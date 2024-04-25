@@ -1,8 +1,8 @@
-import { AuthError, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from "@supabase/supabase-js";
 
 export interface SignInWithPasswordData {
-  email: string,
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface SignUpWithPasswordData {
@@ -30,29 +30,25 @@ export class AuthService {
     return !this.isUserSignedIn();
   }
 
-  async signInWithPassword(data: SignInWithPasswordData, onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when signing in.', error.cause)) {
-    const { error } = await this.supabase.auth.signInWithPassword({
+  async signInWithPassword(data: SignInWithPasswordData) {
+    return this.supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
     });
-
-    return error ? onError(error) : onSuccess();
   }
 
-  async signOut(onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when signing out.', error.cause)) {
-
+  async signOut() {
     const isSignedIn = await this.isUserSignedIn();
 
     if (isSignedIn) {
-      const { error } = await this.supabase.auth.signOut();
-      return error ? onError(error) : onSuccess();
-    } else {
-      return onSuccess()
+      return await this.supabase.auth.signOut();
     }
   }
 
-  async signUp(data: SignUpWithPasswordData, onSuccess: () => void, onError: (error: AuthError) => void = (error) => console.warn('Encountered an error when logging in.', error.cause)) {
-    const { error } = await this.supabase.auth.signUp({
+  async signUp(
+    data: SignUpWithPasswordData,
+  ) {
+    return this.supabase.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
@@ -62,7 +58,5 @@ export class AuthService {
         },
       },
     });
-
-    return error ? onError(error) : onSuccess();
   }
 }
