@@ -1,6 +1,5 @@
-import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
-import { DbConsignee } from '../types/aliases';
-import { Database } from '../types/database.types';
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../types/database.types";
 
 export class ConsigneeService {
   supabase: SupabaseClient<Database>;
@@ -9,8 +8,7 @@ export class ConsigneeService {
     this.supabase = supabase;
   }
 
-  async fetchConsignees(onSuccess: (projects: DbConsignee[]) => void, onError: (error: PostgrestError) => void) {
-    const { data, error } = await this.supabase.from('consignee_partner').select('*');
-    return error ? onError(error) : onSuccess(data);
+  async fetchConsignees() {
+    return this.supabase.from("consignee_partner").select("*");
   }
 }

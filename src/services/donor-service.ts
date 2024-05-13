@@ -1,6 +1,5 @@
-import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
-import { DbDonor } from '../types/aliases';
-import { Database } from '../types/database.types';
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../types/database.types";
 
 export class DonorService {
   supabase: SupabaseClient<Database>;
@@ -9,8 +8,7 @@ export class DonorService {
     this.supabase = supabase;
   }
 
-  async fetchDonors(onSuccess: (projects: DbDonor[]) => void, onError: (error: PostgrestError) => void) {
-    const { data, error } = await this.supabase.from('donor').select('*');
-    return error ? onError(error) : onSuccess(data)
+  async fetchDonors() {
+    return this.supabase.from("donor").select("*");
   }
 }

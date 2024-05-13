@@ -1,5 +1,4 @@
 import { useToast } from '@chakra-ui/react';
-import { AuthError } from '@supabase/supabase-js';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SignUpComponent } from '../../components/sign-up/with-password';
@@ -10,24 +9,21 @@ interface SignUpContainerProps {
 }
 
 export const SignUpContainer: React.FC<SignUpContainerProps> = ({ authService }) => {
-
   const navigate = useNavigate();
   const toast = useToast();
 
-  const handleSignUpError = (authError: AuthError) =>
-    toast({
-      title: 'Failed to sign up...',
-      status: 'error',
-      description: authError.message,
-      isClosable: true
-    })
+  async function signUp(signupData: SignUpWithPasswordData) {
+    const { error } = await authService.signUp(signupData);
 
-  const handleSignUpSuccess = () => navigate('/')
+    if (error)
+      toast({
+        title: 'Failed to sign up...',
+        status: 'error',
+        description: error.message,
+        isClosable: true,
+      });
+    else navigate('/');
+  }
 
-  const handleSignUp = (data: SignUpWithPasswordData) =>
-    authService.signUp(data, handleSignUpSuccess, handleSignUpError);
-
-  return (
-    <SignUpComponent signUp={handleSignUp}></SignUpComponent>
-  )
+  return <SignUpComponent signUp={signUp}></SignUpComponent>;
 };

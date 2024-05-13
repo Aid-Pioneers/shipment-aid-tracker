@@ -249,6 +249,7 @@ export interface Database {
           impact_reporting: boolean | null
           logistics_expense_donation_usd: number | null
           main_shipment_type_id: number | null
+          manager_id: string | null
           origin_id: number
           patients_treated: number | null
           project_id: number | null
@@ -273,6 +274,7 @@ export interface Database {
           impact_reporting?: boolean | null
           logistics_expense_donation_usd?: number | null
           main_shipment_type_id?: number | null
+          manager_id?: string | null
           origin_id: number
           patients_treated?: number | null
           project_id?: number | null
@@ -297,6 +299,7 @@ export interface Database {
           impact_reporting?: boolean | null
           logistics_expense_donation_usd?: number | null
           main_shipment_type_id?: number | null
+          manager_id?: string | null
           origin_id?: number
           patients_treated?: number | null
           project_id?: number | null
@@ -334,6 +337,13 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "shipment_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "shipment_origin_id_fkey"
             columns: ["origin_id"]
             isOneToOne: false
@@ -352,36 +362,6 @@ export interface Database {
             columns: ["status_id"]
             isOneToOne: false
             referencedRelation: "shipment_status"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      shipment_manager: {
-        Row: {
-          profile_id: string
-          shipment_id: number
-        }
-        Insert: {
-          profile_id: string
-          shipment_id: number
-        }
-        Update: {
-          profile_id?: string
-          shipment_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "shipment_manager_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "shipment_manager_shipment_id_fkey"
-            columns: ["shipment_id"]
-            isOneToOne: false
-            referencedRelation: "shipment"
             referencedColumns: ["id"]
           }
         ]
