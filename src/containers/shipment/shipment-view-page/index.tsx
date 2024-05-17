@@ -7,43 +7,44 @@ interface ShipmentViewPageProps {
   shipmentService: ShipmentService;
 }
 
-export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentService }) => {
-  // const [shipment, setShipment] = useState<DbShipment>({});
+// TODO grab shipmentID from param url 
+export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({shipmentService} ) => {
+  const [shipment, setShipment] = useState<DbShipment>({});
   const [errors, setErrors] = useState<String[]>([]);
 
-  // useEffect(() => {
-  //   const loadShipment = async () => {
-  //     return shipmentService.fetchShipment(
-  //       (data) => setShipment(data),
-  //       (error) => setErrors([error.message])
-  //     );
-  //   };
-  //   loadShipment();
-  // }, [shipmentService]);
+  const shipmentId = 123456
+  useEffect(() => {
+    const loadShipment = async () => {
+      return shipmentService.fetchShipment(
+        shipmentId
+      );
+    };
+    loadShipment();
+  }, [shipmentService]);
 
-  const shipment = {
-          bookkeeping_flexport: true,
-          bookkeeping_gik: true,
-          commercial_invoice_link: '',
-          consignee_id: 3,
-          created_at: '',
-          destination_id: 4,
-          donor_id: 3,
-          drive_link: '',
-          estimated_delivery_date: '',
-          flexport_tracking_id: '',
-          freight_tracking_id: '',
-          gik_value_amount_usd: 3,
-          id: 4,
-          impact_reporting: true,
-          logistics_expense_donation_usd: 3,
-          main_shipment_type_id: 3,
-          patients_treated: 3,
-          project_id: 3,
-          status_id: 4,
-          updated_at: '',
-          weight_kg: 3,
-  }
+  // const shipment = {
+  //         bookkeeping_flexport: true,
+  //         bookkeeping_gik: true,
+  //         commercial_invoice_link: '',
+  //         consignee_id: 3,
+  //         created_at: '',
+  //         destination_id: 4,
+  //         donor_id: 3,
+  //         drive_link: '',
+  //         estimated_delivery_date: '',
+  //         flexport_tracking_id: '',
+  //         freight_tracking_id: '',
+  //         gik_value_amount_usd: 3,
+  //         id: 4,
+  //         impact_reporting: true,
+  //         logistics_expense_donation_usd: 3,
+  //         main_shipment_type_id: 3,
+  //         patients_treated: 3,
+  //         project_id: 3,
+  //         status_id: 4,
+  //         updated_at: '',
+  //         weight_kg: 3,
+  // }
   }
   return (
     <>
@@ -53,6 +54,7 @@ export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentServ
       ) : (
         // TODO: shipment list component
         <PageContainer>
+          {/* TODO insert components here */}
           <p>{JSON.stringify(shipment)}</p>
         </PageContainer>
       )}

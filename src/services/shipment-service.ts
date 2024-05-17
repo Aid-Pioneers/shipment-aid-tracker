@@ -12,6 +12,10 @@ export class ShipmentService {
     return this.supabase.from('shipment').select('*');
   }
 
+  async fetchShipment(shipmentId: Database['public']['Tables']['shipment']['Row']['id']) {
+    return this.supabase.from('shipment').select('*').eq('id', shipmentId);
+  }
+
   async fetchShipmentTypes() {
     return this.supabase.from('shipment_type').select('*');
   }
