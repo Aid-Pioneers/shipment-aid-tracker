@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { ShipmentService } from '../../../services/shipment-service';
+import { DbShipment } from '../../../types/aliases';
 
 interface ShipmentOverviewProps {
   shipmentService: ShipmentService;
 }
 
 export const ShipmentOverview: React.FC<ShipmentOverviewProps> = ({ shipmentService }) => {
-  // TODO update types for useState
-  const [shipments, setShipments] = useState<any>([]);
-  const [errors, setErrors] = useState<String[]>([]);
+  const [shipments, setShipments] = useState<DbShipment[]>([]);
+  const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
     const loadShipments = async () => {
-      const shipments = await shipmentService.fetchShipments();
-      setShipments(shipments);
+      const { data, error } = await shipmentService.fetchShipments();
+      if (error != null) setErrors(errors.concat(error.message));
+
+      if (data != null) setShipments(data);
     };
     loadShipments();
-  }, [shipmentService]);
+  }, [shipmentService, errors]);
 
   return (
     <>
