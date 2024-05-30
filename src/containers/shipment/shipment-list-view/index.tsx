@@ -10,14 +10,10 @@ export const ShipmentOverview: React.FC<ShipmentOverviewProps> = ({ shipmentServ
   const [shipments, setShipments] = useState<any>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
-  console.log({ shipments });
-
   useEffect(() => {
     const loadShipments = async () => {
-      return shipmentService.fetchShipments(
-        (data) => setShipments(data),
-        (error) => setErrors([error.message])
-      );
+      const shipments = await shipmentService.fetchShipments();
+      setShipments(shipments);
     };
     loadShipments();
   }, [shipmentService]);
