@@ -16,12 +16,10 @@ export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentServ
 
   useEffect(() => {
     const loadShipment = async () => {
-      try {
-        const fetchedShipment = await shipmentService.fetchShipment(shipmentId);
-        setShipment(fetchedShipment);
-      } catch (error) {
-        setErrors((prevErrors) => [...prevErrors, error.message]);
-      }
+      const { data, error } = await shipmentService.fetchShipment(shipmentId);
+
+      if (data != null) setShipment(data);
+      if (error != null) setErrors(errors.concat(error.message));
     };
     loadShipment();
   }, [shipmentService]);
