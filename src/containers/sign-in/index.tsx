@@ -13,7 +13,7 @@ export const SignInContainer: React.FC<SignInContainerProps> = ({ authService })
   const toast = useToast();
 
   async function signIn(signInData: SignInWithPasswordData) {
-    const { error } = await authService.signInWithPassword(signInData);
+    const { error, data } = await authService.signInWithPassword(signInData);
 
     if (error) {
       toast({
@@ -22,7 +22,10 @@ export const SignInContainer: React.FC<SignInContainerProps> = ({ authService })
         description: error.message,
         isClosable: true,
       });
-    } else navigate('/');
+    } else {
+      console.log(JSON.stringify(data));
+      navigate('/shipments');
+    }
   }
 
   return <SignInWithPasswordComponent signIn={signIn} />;
