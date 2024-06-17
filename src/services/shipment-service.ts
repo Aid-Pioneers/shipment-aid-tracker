@@ -16,7 +16,7 @@ export class ShipmentService {
     shipmentId: Database["public"]["Tables"]["shipment"]["Row"]["id"],
   ) {
     return this.supabase.from("shipment").select("*").eq(
-      "shipment_id",
+      "id",
       shipmentId,
     ).single();
   }
