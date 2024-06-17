@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ShipmentService } from '../../../services/shipment-service';
-import { DbShipment, DbShipmentStatus } from '../../../types/aliases';
+import { FullShipment } from '../../../types/aliases';
 import { PageContainer } from './index.styles';
 import { StatusCard } from '../../../components/common/status-card';
 import { IconShipmentStatusPlanned } from '../../../assets/icons/shipments';
@@ -12,34 +12,23 @@ interface ShipmentViewPageProps {
 
 export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentService }) => {
   const { id } = useParams<{ id: string }>();
-  const [shipment, setShipment] = useState<DbShipment | null>(null);
-  const [shipmentStatuses, setShipmentStatuses] = useState<DbShipmentStatus[]>([]);
+  const [shipment, setShipment] = useState<FullShipment | null>(null);
   const [errors, setErrors] = useState<String[]>([]);
 
   useEffect(() => {
     const loadShipment = async () => {
       const { data, error } = await shipmentService.fetchShipment(Number(id));
 
+      console.log(data);
+
       if (data != null) setShipment(data);
       if (error != null) setErrors((prevErrors) => [...prevErrors, error.message]);
     };
 
-    const loadShipmentStatuses = async () => {
-      const { data, error } = await shipmentService.fetchShipmentStatuses();
-
-      if (data != null) setShipmentStatuses(data);
-      if (error != null) setErrors((prevErrors) => [...prevErrors, error.message]);
-    };
-
     loadShipment();
-    loadShipmentStatuses();
   }, [id, shipmentService]);
 
   const defaultStatusCard = <StatusCard icon={IconShipmentStatusPlanned} field="Shipment Status" status="Loading..."></StatusCard>;
-  const resolveStatus = (shipmentStatusId: DbShipmentStatus['id']) => {
-    const maybeStatus = shipmentStatuses.find((status) => status.id === shipmentStatusId)?.status;
-    return maybeStatus !== undefined ? maybeStatus : 'Unknown';
-  };
 
   return (
     <>
@@ -49,7 +38,11 @@ export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentServ
       ) : (
         <PageContainer>
           {shipment !== null ? (
-            <StatusCard icon={IconShipmentStatusPlanned} field="Shipment Status" status={resolveStatus(shipment.status_id)}></StatusCard>
+            <StatusCard
+              icon={IconShipmentStatusPlanned}
+              field="Shipment Status"
+              status={shipment.shipment_status?.status !== undefined ? shipment.shipment_status?.status : 'Unknown'}
+            ></StatusCard>
           ) : (
             defaultStatusCard
           )}

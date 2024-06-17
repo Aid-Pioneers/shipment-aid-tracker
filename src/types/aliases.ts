@@ -18,3 +18,17 @@ export type DbConsignee =
 export type DbDonor = Database["public"]["Tables"]["donor"]["Row"];
 
 export type DbProfile = Database["public"]["Tables"]["profile"]["Row"];
+
+export type FullShipment =
+  & DbShipment
+  & { shipment_status: { status: string } | null }
+  & { shipment_type: { shipment_type: string } | null }
+  & { donor: { id: number; name: string } | null }
+  & {
+    profile: {
+      first_name: string | null;
+      last_name: string | null;
+      email: string | null;
+    } | null;
+  }
+  & { country2: { code: string } | null };

@@ -8,14 +8,33 @@ export class ShipmentService {
     this.supabase = supabase;
   }
 
+  // country:origin_id ( code, name ),
+  // country:destination_id ( code, name ),
   async fetchShipments() {
-    return this.supabase.from("shipment").select("*");
+    return this.supabase.from("shipment").select(`*,
+      consignee_partner ( name ),
+      donor ( id, name ),
+      shipment_type ( id, shipment_type ),
+      shipment_status ( status ),
+      profile ( first_name, last_name, email ),
+      country1:origin_id ( code, name ),
+      country2:destination_id ( code, name )
+      `);
   }
 
   async fetchShipment(
     shipmentId: Database["public"]["Tables"]["shipment"]["Row"]["id"],
   ) {
-    return this.supabase.from("shipment").select("*").eq(
+    return this.supabase.from("shipment").select(`
+      *,
+      consignee_partner ( name ),
+      donor ( id, name ),
+      shipment_type ( id, shipment_type ),
+      shipment_status ( status ),
+      profile ( first_name, last_name, email ),
+      country1:origin_id ( code, name ),
+      country2:destination_id ( code, name )
+      `).eq(
       "id",
       shipmentId,
     ).single();
