@@ -8,6 +8,7 @@ import { IconShipmentCreatedAt, IconShipmentPackingList, IconShipmentStatusPlann
 import { Box, Flex, Grid, Heading, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { OriginDestinationCard } from '../../../components/shipment/common/destination-panel';
 import { DocumentsCard } from '../../../components/shipment/common/document-links';
+import { ManagerCard } from '../../../components/shipment/common/shipment-manager';
 
 interface ShipmentViewPageProps {
   shipmentService: ShipmentService;
@@ -90,7 +91,10 @@ export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentServ
                     </Grid>
                   </Box>
                   <Box flex="0.4">
+                    {/* TODO dynamically pass in links */}
                     <DocumentsCard documents={['randomlink.com', 'second link']} />
+                    {/* TODO add resolve manage function to display this */}
+                    <ManagerCard user="Mehmet Marrasligil" />
                   </Box>
                 </Flex>
               </TabPanel>
