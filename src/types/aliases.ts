@@ -30,5 +30,5 @@ export type FullShipment =
       last_name: string | null;
       email: string | null;
     } | null;
-  }
-  & { country2: { code: string } | null };
+  }; // & { origin: { code: string; name: string } | null }
+// & { destination: { code: string; name: string } | null }
