@@ -9,13 +9,30 @@ export class ShipmentService {
   }
 
   async fetchShipments() {
-    return this.supabase.from("shipment").select("*");
+    return this.supabase.from("shipment").select(`*,
+      consignee_partner ( name ),
+      donor ( id, name ),
+      shipment_type ( id, shipment_type ),
+      shipment_status ( status ),
+      profile ( first_name, last_name, email ),
+      origin:origin_id ( code, name ),
+      destination:destination_id ( code, name )
+      `);
   }
 
   async fetchShipment(
     shipmentId: Database["public"]["Tables"]["shipment"]["Row"]["id"],
   ) {
-    return this.supabase.from("shipment").select("*").eq(
+    return this.supabase.from("shipment").select(`
+      *,
+      consignee_partner ( name ),
+      donor ( id, name ),
+      shipment_type ( id, shipment_type ),
+      shipment_status ( status ),
+      profile ( first_name, last_name, email ),
+      origin:origin_id ( code, name ),
+      destination:destination_id ( code, name )
+      `).eq(
       "id",
       shipmentId,
     ).single();
