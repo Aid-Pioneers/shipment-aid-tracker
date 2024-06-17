@@ -37,7 +37,7 @@ export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentServ
 
   const defaultStatusCard = <StatusCard icon={IconShipmentStatusPlanned} field="Shipment Status" status="Loading..."></StatusCard>;
   const resolveStatus = (shipmentStatusId: DbShipmentStatus['id']) => {
-    const maybeStatus = shipmentStatuses.find((status) => status.id == shipmentStatusId)?.status;
+    const maybeStatus = shipmentStatuses.find((status) => status.id === shipmentStatusId)?.status;
     return maybeStatus !== undefined ? maybeStatus : 'Unknown';
   };
 
