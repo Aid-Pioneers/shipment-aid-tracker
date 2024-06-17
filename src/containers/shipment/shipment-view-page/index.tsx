@@ -19,7 +19,6 @@ export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentServ
   const [shipment, setShipment] = useState<FullShipment | null>(null);
   const [errors, setErrors] = useState<String[]>([]);
 
-  console.log({ shipment });
   useEffect(() => {
     const loadShipment = async () => {
       const { data, error } = await shipmentService.fetchShipment(Number(id));
@@ -41,7 +40,7 @@ export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentServ
       ) : (
         <PageContainer>
           <Heading as="h1" size="xl" mb="4">
-            Shipment {id}
+            Shipment {id} for {shipment?.project?.name}
           </Heading>
           <Tabs>
             <TabList>

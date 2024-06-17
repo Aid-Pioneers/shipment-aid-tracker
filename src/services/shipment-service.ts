@@ -9,7 +9,9 @@ export class ShipmentService {
   }
 
   async fetchShipments() {
-    return this.supabase.from("shipment").select(`*,
+    return this.supabase.from("shipment").select(`
+      *,
+      project ( name ),
       consignee_partner ( name ),
       donor ( id, name ),
       shipment_type ( id, shipment_type ),
@@ -25,6 +27,7 @@ export class ShipmentService {
   ) {
     return this.supabase.from("shipment").select(`
       *,
+      project ( name ),
       consignee_partner ( name ),
       donor ( id, name ),
       shipment_type ( id, shipment_type ),

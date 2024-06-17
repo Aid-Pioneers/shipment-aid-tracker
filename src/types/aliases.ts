@@ -21,6 +21,7 @@ export type DbProfile = Database["public"]["Tables"]["profile"]["Row"];
 
 export type FullShipment =
   & DbShipment
+  & { project: { name: string } | null }
   & { shipment_status: { status: string } | null }
   & { shipment_type: { shipment_type: string } | null }
   & { donor: { id: number; name: string } | null }
