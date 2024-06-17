@@ -18,8 +18,8 @@ export class ShipmentService {
       shipment_type ( id, shipment_type ),
       shipment_status ( status ),
       profile ( first_name, last_name, email ),
-      country1:origin_id ( code, name ),
-      country2:destination_id ( code, name )
+      origin:origin_id ( code, name ),
+      destination:destination_id ( code, name )
       `);
   }
 
