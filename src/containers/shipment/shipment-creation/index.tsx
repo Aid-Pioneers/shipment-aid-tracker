@@ -5,8 +5,6 @@ import { ConsigneeService } from '../../../services/consignee-service';
 import { CountryService } from '../../../services/country-service';
 import { ProfileService } from '../../../services/profile-service';
 import { ShipmentService } from '../../../services/shipment-service';
-import { useForm } from 'react-hook-form';
-import { FormItemWrapper, FormWrapper } from './index.styles';
 
 interface ShipmentCreationContainerProps {
   shipmentService: ShipmentService;
