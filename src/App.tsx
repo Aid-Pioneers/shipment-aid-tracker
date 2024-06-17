@@ -5,6 +5,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { supabaseKey, supabaseUrl } from './config/config';
 import { ShipmentCreationContainer } from './containers/shipment/shipment-creation';
 import { ShipmentOverview } from './containers/shipment/shipment-list-view';
+import { ShipmentViewPage } from './containers/shipment/shipment-view-page';
 import { SignInContainer } from './containers/sign-in';
 import { SignUpContainer } from './containers/sign-up';
 import { AuthService } from './services/auth-service';
@@ -30,6 +31,7 @@ const App: React.FC = () => {
           <Route path="/sign-in" element={<SignInContainer authService={authService} />} />
           <Route path="/sign-up" element={<SignUpContainer authService={authService} />} />
           <Route path="/shipments" element={<ShipmentOverview shipmentService={shipmentService} />} />
+          <Route path="/shipments/:id" element={<ShipmentViewPage shipmentService={shipmentService} />} />
           <Route
             path="/shipments/new"
             element={

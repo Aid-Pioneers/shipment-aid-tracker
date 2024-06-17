@@ -8,16 +8,17 @@ interface ShipmentOverviewProps {
 
 export const ShipmentOverview: React.FC<ShipmentOverviewProps> = ({ shipmentService }) => {
   const [shipments, setShipments] = useState<DbShipment[]>([]);
-  const [errors, setErrors] = useState<String[]>([]);
+  const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
     const loadShipments = async () => {
       const { data, error } = await shipmentService.fetchShipments();
-      if (data) setShipments(data);
-      if (error) setErrors([error.message]);
+      if (error != null) setErrors(errors.concat(error.message));
+
+      if (data != null) setShipments(data);
     };
     loadShipments();
-  }, [shipmentService]);
+  }, [shipmentService, errors]);
 
   return (
     <>
