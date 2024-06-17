@@ -5,8 +5,9 @@ import { DbShipment, DbShipmentStatus } from '../../../types/aliases';
 import { PageContainer } from './index.styles';
 import { StatusCard } from '../../../components/common/status-card';
 import { IconShipmentCreatedAt, IconShipmentPackingList, IconShipmentStatusPlanned } from '../../../assets/icons/shipments';
-import { Box, Grid, Heading, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, Heading, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { OriginDestinationCard } from '../../../components/shipment/common/destination-panel';
+import { DocumentsCard } from '../../../components/shipment/common/document-links';
 
 interface ShipmentViewPageProps {
   shipmentService: ShipmentService;
@@ -45,10 +46,10 @@ export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentServ
     return maybeStatus !== undefined ? maybeStatus : 'Unknown';
   };
 
-  const resolveLocation = (shipmentLocationID: number): string => {
-    // TODO
-    return 'unknown';
-  };
+  // const resolveLocation = (shipmentLocationID: number): string => {
+  //   // TODO
+  //   return 'unknown';
+  // };
 
   return (
     <>
@@ -57,56 +58,45 @@ export const ShipmentViewPage: React.FC<ShipmentViewPageProps> = ({ shipmentServ
         errors.map((error, index) => <p key={index}>{error}</p>)
       ) : (
         <PageContainer>
-          <Box>
-            <Heading as="h1" size="xl" mb="4">
-              Shipment {id}
-            </Heading>
-            <Tabs variant="enclosed">
-              <TabList>
-                <Tab>Overview</Tab>
-                <Tab>Details</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel>
-                  <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                    <Box>
+          <Heading as="h1" size="xl" mb="4">
+            Shipment {id}
+          </Heading>
+          <Tabs>
+            <TabList>
+              <Tab>Overview</Tab>
+              <Tab>Details</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <Flex justify="space-between">
+                  <Box flex="1" mr="4">
+                    <Grid templateColumns="repeat(3, 1fr)" gap={4}>
                       {shipment !== null ? (
-                        <StatusCard icon={IconShipmentStatusPlanned} field="Shipment Status" status={resolveStatus(shipment.status_id)} />
+                        <>
+                          <StatusCard icon={IconShipmentStatusPlanned} field="Shipment Status" status={resolveStatus(shipment.status_id)} />
+                          <StatusCard
+                            icon={IconShipmentCreatedAt}
+                            field="Creation Date"
+                            status={new Date(shipment.created_at).toLocaleString()}
+                          />
+                          <StatusCard icon={IconShipmentPackingList} field="Packing List" status="Add Packing List" />
+                          <Grid gridColumn="span 3">
+                            <OriginDestinationCard origin="New York, USA" destination="Kyiv, Ukraine" />
+                          </Grid>
+                        </>
                       ) : (
-                        defaultStatusCard
+                        <Grid gridColumn="span 3">{defaultStatusCard}</Grid>
                       )}
-                    </Box>
-                    <Box>
-                      {shipment !== null ? (
-                        <StatusCard
-                          icon={IconShipmentStatusPlanned}
-                          field="Creation Date"
-                          status={new Date(shipment.created_at).toLocaleString()}
-                        />
-                      ) : (
-                        <StatusCard icon={IconShipmentCreatedAt} field="Creation Date" status="" />
-                      )}
-                    </Box>
-                    <Box>
-                      <StatusCard icon={IconShipmentPackingList} field="Packing List" status="Add Packing List" />
-                    </Box>
-                  </Grid>
-                  <Box mt="6">
-                    {shipment !== null && (
-                      <OriginDestinationCard
-                        origin={resolveLocation(shipment.origin_id)}
-                        destination={resolveLocation(shipment.destination_id)}
-                      />
-                    )}
+                    </Grid>
                   </Box>
-                </TabPanel>
-                <TabPanel>
-                  {/* Details content goes here */}
-                  <Text>Details section is currently empty.</Text>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </Box>
+                  <Box flex="0.4">
+                    <DocumentsCard documents={['randomlink.com', 'second link']} />
+                  </Box>
+                </Flex>
+              </TabPanel>
+              <TabPanel>{/* Details content goes here */}</TabPanel>
+            </TabPanels>
+          </Tabs>
         </PageContainer>
       )}
     </>
