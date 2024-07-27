@@ -1,4 +1,4 @@
-import { Heading, VStack } from '@chakra-ui/react';
+import { Box, Flex, Heading, HStack, Spacer, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { ShipmentCreationGeneralComponent } from '../../../components/shipment/creation/general';
 import { ConsigneeService } from '../../../services/consignee-service';
@@ -20,15 +20,20 @@ export const ShipmentCreationContainer: React.FC<ShipmentCreationContainerProps>
   profileService,
 }) => {
   return (
-    <VStack>
-      {/* TODO can we make this h1 left aligned? */}
-      <Heading as="h1">Create a shipment</Heading>
-      <ShipmentCreationGeneralComponent
-        shipmentService={shipmentService}
-        countryService={countryService}
-        consigneeService={consigneeService}
-        profileService={profileService}
-      />
-    </VStack>
+    <Flex height="100vh" alignItems="start" justifyContent="center">
+      <VStack spacing={4}>
+        <Heading as="h1" alignSelf="flex-start">
+          Create a shipment
+        </Heading>
+        <Box>
+          <ShipmentCreationGeneralComponent
+            shipmentService={shipmentService}
+            countryService={countryService}
+            consigneeService={consigneeService}
+            profileService={profileService}
+          />
+        </Box>
+      </VStack>
+    </Flex>
   );
 };
