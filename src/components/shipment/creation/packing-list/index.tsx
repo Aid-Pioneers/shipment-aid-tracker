@@ -1,8 +1,7 @@
-import { Collapse, Grid, GridItem, Input, Select, Spacer } from '@chakra-ui/react';
+import { Collapse, Grid, GridItem, Input, Select, Spacer, VStack } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
 import { DbDonor } from '../../../../types/aliases';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 import { Database } from '../../../../types/database.types';
@@ -46,7 +45,7 @@ export const ShipmentCreationPackingListComponent: React.FC<PackingListComponent
   };
 
   return (
-    <FormWrapper>
+    <VStack>
       <CollapsibleFormHeaderComponent header="Packing List" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
       <Collapse in={typeof isCollapsed === 'undefined' || !isCollapsed}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,6 +67,6 @@ export const ShipmentCreationPackingListComponent: React.FC<PackingListComponent
           <SubmitPanel onCancel={handleCancel} />
         </form>
       </Collapse>
-    </FormWrapper>
+    </VStack>
   );
 };

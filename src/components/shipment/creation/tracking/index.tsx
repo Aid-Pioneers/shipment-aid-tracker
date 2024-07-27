@@ -1,12 +1,11 @@
-import { Collapse, Grid, GridItem, Input, NumberInput, NumberInputField, Spacer } from '@chakra-ui/react';
+import { Collapse, Grid, GridItem, Input, NumberInput, NumberInputField, Spacer, VStack } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
 import { CollapsibleFormHeaderComponent } from '../../../collapsible-form-header';
 
 interface TrackingComponentProps {
-  startCollapsed?: boolean
+  startCollapsed?: boolean;
 }
 
 export const ShipmentCreationTrackingComponent: React.FC<TrackingComponentProps> = ({ startCollapsed }) => {
@@ -14,10 +13,10 @@ export const ShipmentCreationTrackingComponent: React.FC<TrackingComponentProps>
 
   const [isCollapsed, setCollapsed] = useState<boolean | undefined>(startCollapsed);
 
-  const onSubmit = () => { };
+  const onSubmit = () => {};
 
   return (
-    <FormWrapper>
+    <VStack>
       <CollapsibleFormHeaderComponent header="Tracking" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
       <Collapse in={typeof isCollapsed === 'undefined' || !isCollapsed}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -30,8 +29,7 @@ export const ShipmentCreationTrackingComponent: React.FC<TrackingComponentProps>
               <label>Tracking ID</label>
               <Input size="sm" />
             </GridItem>
-            <Spacer>
-            </Spacer>
+            <Spacer></Spacer>
             <GridItem colSpan={[4, 4]}>
               <label>ETA / Delivery Date</label>
               <Input placeholder="Select Date and Time" size="sm" type="date" />
@@ -55,6 +53,6 @@ export const ShipmentCreationTrackingComponent: React.FC<TrackingComponentProps>
           </Grid>
         </form>
       </Collapse>
-    </FormWrapper>
+    </VStack>
   );
 };

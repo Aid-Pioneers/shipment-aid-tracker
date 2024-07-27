@@ -1,8 +1,7 @@
-import { Collapse, Grid, GridItem, Input, Select } from '@chakra-ui/react';
+import { Collapse, Grid, GridItem, Input, Select, Text, VStack } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FormWrapper } from '../../../../containers/shipment/shipment-creation/index.styles';
 import { ShipmentService } from '../../../../services/shipment-service';
 import { DbConsignee, DbCountry, DbProfile, DbShipmentStatus, DbShipmentType } from '../../../../types/aliases';
 import { Database } from '../../../../types/database.types';
@@ -122,55 +121,55 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
   const { register, handleSubmit } = useForm<FormValuesShipment>();
 
   return (
-    <FormWrapper>
+    <VStack>
       <CollapsibleFormHeaderComponent header="General" isCollapsed={isCollapsed} setCollapsed={setCollapsed} />
       <Collapse in={typeof isCollapsed === 'undefined' || !isCollapsed}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid templateColumns="repeat(12, 1fr)" gap={6}>
             <GridItem colSpan={[6, 4]}>
-              <label>Origin</label>
+              <Text>Origin</Text>
               <Select placeholder="Select origin" {...register('origin_id', { required: 'Origin is required' })}>
                 {countryOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
-              <label>Destination</label>
+              <Text>Destination</Text>
               <Select placeholder="Select Destination" {...register('destination_id', { required: 'Destination is required' })}>
                 {countryOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
-              <label>Main shipment type</label>
+              <Text>Main shipment type</Text>
               <Select placeholder="Select option" {...register('main_shipment_type_id')}>
                 {shipmentTypeOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
-              <label>Consignee (recipient)</label>
+              <Text>Consignee (recipient)</Text>
               <Select placeholder="Select option" {...register('consignee_id')}>
                 {consigneeOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
-              <label>Internal ID</label>
+              <Text>Internal ID</Text>
               <Input size="sm" id="internalId" />
             </GridItem>
             <GridItem colSpan={[6, 4]}>
-              <label>Managed By</label>
+              <Text>Managed By</Text>
               <Select placeholder="Select option" {...register('manager_id')}>
                 {managerOptions}
               </Select>
             </GridItem>
             <GridItem colSpan={[6, 4]}>
-              <label>Drive Number:</label>
+              <Text>Drive Number:</Text>
               <Input size="sm" />
             </GridItem>
             <GridItem colSpan={[6, 8]}>
-              <label>Drive Link</label>
+              <Text>Drive Link</Text>
               <Input size="sm" type="url" {...register('drive_link')} />
             </GridItem>
             <GridItem colSpan={[6, 4]}>
-              <label>Status</label>
+              <Text>Status</Text>
               <Select placeholder="Select option" {...register('status_id', { required: true })}>
                 {shipmentStatusOptions}
               </Select>
@@ -179,6 +178,6 @@ export const ShipmentCreationGeneralComponent: React.FC<GeneralComponentProps> =
           <SubmitPanel onCancel={handleCancel} />
         </form>
       </Collapse>
-    </FormWrapper>
+    </VStack>
   );
 };
