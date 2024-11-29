@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { Box, ChakraProvider, Flex } from '@chakra-ui/react';
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
 import React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
@@ -14,6 +14,7 @@ import { CountryService } from './services/country-service';
 import { ProfileService } from './services/profile-service';
 import { ShipmentService } from './services/shipment-service';
 import { Database } from './types/database.types';
+import NavBar from './components/nav';
 
 const App: React.FC = () => {
   const supabase: SupabaseClient = createClient<Database>(supabaseUrl, supabaseKey);
@@ -26,24 +27,29 @@ const App: React.FC = () => {
   return (
     <ChakraProvider>
       <HashRouter basename="/">
-        <Routes>
-          <Route path="/" element={<SignInContainer authService={authService} />} />
-          <Route path="/sign-in" element={<SignInContainer authService={authService} />} />
-          <Route path="/sign-up" element={<SignUpContainer authService={authService} />} />
-          <Route path="/shipments" element={<ShipmentOverview shipmentService={shipmentService} />} />
-          <Route path="/shipments/:id" element={<ShipmentViewPage shipmentService={shipmentService} />} />
-          <Route
-            path="/shipments/new"
-            element={
-              <ShipmentCreationContainer
-                shipmentService={shipmentService}
-                countryService={countryService}
-                consigneeService={consigneeService}
-                profileService={profileService}
+        <NavBar />
+        <Flex>
+          <Box flex="1" p="4">
+            <Routes>
+              <Route path="/" element={<SignInContainer authService={authService} />} />
+              <Route path="/sign-in" element={<SignInContainer authService={authService} />} />
+              <Route path="/sign-up" element={<SignUpContainer authService={authService} />} />
+              <Route path="/shipments" element={<ShipmentOverview shipmentService={shipmentService} />} />
+              <Route path="/shipments/:id" element={<ShipmentViewPage shipmentService={shipmentService} />} />
+              <Route
+                path="/shipments/new"
+                element={
+                  <ShipmentCreationContainer
+                    shipmentService={shipmentService}
+                    countryService={countryService}
+                    consigneeService={consigneeService}
+                    profileService={profileService}
+                  />
+                }
               />
-            }
-          />
-        </Routes>
+            </Routes>
+          </Box>
+        </Flex>
       </HashRouter>
     </ChakraProvider>
   );
